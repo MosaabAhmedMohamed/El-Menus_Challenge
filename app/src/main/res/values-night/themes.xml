@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.ElMenus_Challenge" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/purple_700</item>
+        <!-- Customize your theme here. -->
+
+
+        <item name="viewBackground">@color/black</item>
+
+        <!-- Text color. -->
+        <item name="primaryTextColor">@color/white</item>
+        <item name="primaryTextColor87">@color/white_87</item>
+        <item name="primaryTextColor60">@color/white_60</item>
+        <item name="primaryTextColor38">@color/white_38</item>
+
+        <item name="btnPrimaryTextColor">@color/black</item>
+    </style>
+</resources>
