@@ -1,7 +1,7 @@
 package com.example.el_menus_challenge.di
 
-import com.example.el_menus_challenge.presentation.ui.NavHostActivity
-import com.example.el_menus_challenge.presentation.ui.tagslist.di.TagsFragmentBuilderModule
+import com.example.el_menus_challenge.NavHostActivity
+import com.example.el_menus_challenge.di.tags.TagsFragmentBuilderModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -10,5 +10,5 @@ abstract class ActivityBuilder {
 
 
     @ContributesAndroidInjector(modules = [TagsFragmentBuilderModule::class])
-    abstract fun provideNavHostActivity():NavHostActivity
+    abstract fun provideNavHostActivity(): NavHostActivity
 }

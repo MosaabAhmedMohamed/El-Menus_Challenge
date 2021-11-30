@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.el_menus_challenge">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".app.ElmenusChallengeApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ElMenus_Challenge">
+        android:theme="@style/Theme.ElMenus_Challenge"
+        android:usesCleartextTraffic="true"
+        tools:replace="allowBackup"
+        tools:targetApi="m">
+
+
         <activity
-            android:name=".presentation.ui.NavHostActivity"
+            android:name=".NavHostActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

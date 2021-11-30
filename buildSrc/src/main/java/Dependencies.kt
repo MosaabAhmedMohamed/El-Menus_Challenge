@@ -29,8 +29,7 @@ object Versions {
     const val lifecycle = "1.1.1"
     const val PAGING_3 = "3.0.1"
     const val NAVIGATION="2.3.5"
-
-
+    const val GLIDE = "4.12.0"
 
 }
 
@@ -108,6 +107,12 @@ object PAGING {
 object NAVIGATION {
     const val NAVIGATION_FRAGMENT = "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}"
     const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
+}
+
+
+object GLIDE {
+    const val GLIDE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
+    const val GLIDE_ANO = "com.github.bumptech.glide:compiler:${Versions.GLIDE}"
 }
 
 
