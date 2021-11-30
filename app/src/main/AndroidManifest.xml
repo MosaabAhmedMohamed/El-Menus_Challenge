@@ -3,6 +3,7 @@
     package="com.example.el_menus_challenge">
 
     <application
+        android:name=".app.ElmenusChallengeApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ElMenus_Challenge">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.ui.NavHostActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
