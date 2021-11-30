@@ -80,13 +80,28 @@ dependencies {
     kapt(DAGGER.DAGGER_ANNOTATION)
     kapt(DAGGER.DAGGER_KAPT)
 
-    // OkHttp, Retrofit
-    implementation(RETROFIT.RETROFIT)
-
-
     //RX
     implementation(RX.RXANDROID)
     implementation(RX.RXJAVA)
     implementation(RX.RXKOTLIN)
 
+
+    // OkHttp, Retrofit
+    implementation("com.squareup.okhttp3:okhttp:3.14.7")
+    implementation(RETROFIT.RETROFIT)
+    implementation(LOGGING_INTERCEPTORS.LOGGING_INTERCEPTORS)
+    implementation(RETROFIT.RETROFIT_MOSHI_CONVERTER)
+    implementation(RX.RETROFIT)
+
+    /**
+     * room Db
+     * */
+    implementation("androidx.room:room-rxjava2:2.3.0")
+    kapt("androidx.room:room-compiler:2.3.0")
+    api("androidx.room:room-runtime:2.3.0")
+    implementation("androidx.room:room-common:2.3.0")
+
+
+    implementation(NAVIGATION.NAVIGATION_FRAGMENT)
+    implementation(NAVIGATION.NAVIGATION_UI)
 }
