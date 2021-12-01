@@ -1,13 +1,17 @@
 package com.example.presentation.itemlist.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.domain.itemlist.entity.model.ItemModel
+import androidx.transition.TransitionInflater
 import com.example.presentation.R
 import com.example.presentation.base.ViewModelFactory
 import com.example.presentation.base.ui.BaseFragment
@@ -15,20 +19,23 @@ import com.example.presentation.base.ui.ext.gone
 import com.example.presentation.base.ui.ext.visibility
 import com.example.presentation.base.ui.ext.visible
 import com.example.presentation.databinding.FragmentItemListBinding
+import com.example.presentation.itemlist.model.ItemUiModel
 import com.example.presentation.itemlist.ui.adapter.ItemsAdapter
 import com.example.presentation.itemlist.viewmodel.ItemListViewModel
 import com.example.presentation.itemlist.viewstate.ItemListViewState
 import javax.inject.Inject
 
-class ItemListFragment: BaseFragment() {
+class ItemListFragment : BaseFragment() {
 
     private val args: ItemListFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentItemListBinding
 
-    private val itemListAdapter by lazy { ItemsAdapter{
-        onProductItemClicked(it)
-    }}
+    private val itemListAdapter by lazy {
+        ItemsAdapter {item,img->
+            onProductItemClicked(item,img)
+        }
+    }
 
 
     @Inject
@@ -65,7 +72,6 @@ class ItemListFragment: BaseFragment() {
         itemsViewModel.itemListViewStateLD.observe(this, {
             handleViewState(it)
         })
-
     }
 
     private fun handleViewState(viewState: ItemListViewState) {
@@ -97,7 +103,7 @@ class ItemListFragment: BaseFragment() {
         binding.errMessageRootView.rootView.gone()
     }
 
-    private fun onItemsLoaded(result: List<ItemModel>) {
+    private fun onItemsLoaded(result: List<ItemUiModel>) {
         showItemsViews(true)
         binding.refreshSrl.stopRefresh()
         binding.progressRootView.rootView.gone()
@@ -108,10 +114,29 @@ class ItemListFragment: BaseFragment() {
     private fun initItemsRv() {
         binding.listRv.layoutManager = LinearLayoutManager(requireContext())
         binding.listRv.adapter = itemListAdapter
+
+        binding.listRv.apply {
+            adapter = itemListAdapter
+            postponeEnterTransition()
+            viewTreeObserver
+                .addOnPreDrawListener {
+                    startPostponedEnterTransition()
+                    true
+                }
+        }
     }
 
-    private fun onProductItemClicked(item: ItemModel) {
-       // requireActivity().navigateToProductDetails(item)
+    private fun onProductItemClicked(item: ItemUiModel, img: ImageView) {
+        /* itemsViewModel.navigateToItemDetail(item)*/
+
+        img.transitionName = "${item.id}${img.transitionName}"
+        val extras = FragmentNavigatorExtras(img to img.transitionName)
+
+        requireView().findNavController().navigate(
+            ItemListFragmentDirections
+                .actionItemListFragmentToItemDetailFragment(item),
+            extras
+        )
     }
 
     private fun getItems() {
