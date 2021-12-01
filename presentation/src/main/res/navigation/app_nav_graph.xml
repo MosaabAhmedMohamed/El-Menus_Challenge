@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/app_nav_graph.xml"
+    app:startDestination="@id/tagsFragment">
+
+    <fragment
+        android:id="@+id/tagsFragment"
+        android:name="com.example.presentation.tags.ui.fragment.TagsFragment"
+        android:label="TagsFragment" >
+        <action
+            android:id="@+id/action_tagsFragment_to_itemListFragment"
+            app:destination="@id/itemListFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/itemListFragment"
+        android:name="com.example.presentation.itemlist.ui.fragment.ItemListFragment"
+        android:label="ItemListFragment" >
+        <argument
+            android:name="tagName"
+            app:argType="string" />
+    </fragment>
+</navigation>
