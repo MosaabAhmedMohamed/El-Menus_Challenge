@@ -29,9 +29,9 @@ class ItemListRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun reFetchItemsFromRemote(): Completable {
+    override fun reFetchItemsFromRemote(tagName: ItemListPrams): Completable {
         return Completable.create {
-          //  loadFromRemoteAndCache(itemListPrams)
+            loadFromRemoteAndCache(tagName)
             it.onComplete()
         }
     }

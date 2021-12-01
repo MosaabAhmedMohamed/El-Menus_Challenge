@@ -51,13 +51,13 @@ class ItemListFragment: BaseFragment() {
     override fun init() {
         initRefresh()
         observeViewState()
-        initProductsRv()
-        getProducts()
+        initItemsRv()
+        getItems()
     }
 
     private fun initRefresh() {
         binding.refreshSrl.init {
-            refreshProducts()
+            refreshItems()
         }
     }
 
@@ -73,7 +73,7 @@ class ItemListFragment: BaseFragment() {
             ItemListViewState.Loading -> loadingState()
             ItemListViewState.onEmptyState -> emptyState()
             is ItemListViewState.onError -> errorState(viewState.error)
-            is ItemListViewState.onSuccess -> onProductsLoaded(viewState.result)
+            is ItemListViewState.onSuccess -> onItemsLoaded(viewState.result)
         }
 
     }
@@ -86,26 +86,26 @@ class ItemListFragment: BaseFragment() {
 
     private fun errorState(error: Throwable? = null) {
         binding.errMessageRootView.rootView.visible()
-        showProductViews(false)
+        showItemsViews(false)
         binding.refreshSrl.stopRefresh()
         binding.progressRootView.rootView.gone()
     }
 
     private fun loadingState() {
-        showProductViews(false)
+        showItemsViews(false)
         binding.progressRootView.rootView.visible()
         binding.errMessageRootView.rootView.gone()
     }
 
-    private fun onProductsLoaded(result: List<ItemModel>) {
-        showProductViews(true)
+    private fun onItemsLoaded(result: List<ItemModel>) {
+        showItemsViews(true)
         binding.refreshSrl.stopRefresh()
         binding.progressRootView.rootView.gone()
         binding.errMessageRootView.rootView.gone()
         itemListAdapter.setItems(result.toMutableList())
     }
 
-    private fun initProductsRv() {
+    private fun initItemsRv() {
         binding.listRv.layoutManager = LinearLayoutManager(requireContext())
         binding.listRv.adapter = itemListAdapter
     }
@@ -114,24 +114,24 @@ class ItemListFragment: BaseFragment() {
        // requireActivity().navigateToProductDetails(item)
     }
 
-    private fun getProducts() {
+    private fun getItems() {
         itemListAdapter.clear()
         itemsViewModel.getItemList(args.tagName)
     }
 
-    private fun refreshProducts() {
+    private fun refreshItems() {
         itemListAdapter.clear()
         itemsViewModel.refreshItemList(args.tagName)
     }
 
-    private fun showProductViews(show: Boolean) {
+    private fun showItemsViews(show: Boolean) {
         binding.listRv.visibility(show)
     }
 
     override fun onViewClicked() {
         super.onViewClicked()
         binding.errMessageRootView.btnRetry.setOnClickListener {
-            getProducts()
+            getItems()
         }
     }
 

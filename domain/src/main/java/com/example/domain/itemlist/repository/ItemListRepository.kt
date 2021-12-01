@@ -9,6 +9,6 @@ interface ItemListRepository {
 
     fun getItems(itemListPrams: ItemListPrams): Flowable<List<ItemModel>>
 
-    fun reFetchItemsFromRemote(): Completable
+    fun reFetchItemsFromRemote(tagName: ItemListPrams): Completable
 
 }

@@ -39,7 +39,7 @@ class ItemListViewModel @Inject constructor(
     }
 
     fun refreshItemList(tagName: String) {
-        refreshItemsUseCase.refreshItems()
+        refreshItemsUseCase.refreshItems(tagName)
             .subscribeOn(schedulerProvider.io())
             .subscribe()
             .addTo(compositeDisposable)
