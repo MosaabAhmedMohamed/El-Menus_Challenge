@@ -1,4 +1,4 @@
-package com.example.presentation.tags.viewstate
+package com.example.presentation.itemlist.viewstate
 
 import com.example.domain.itemlist.entity.model.ItemModel
 

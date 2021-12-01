@@ -6,7 +6,7 @@ import com.example.domain.itemlist.usecase.GetTagItemsUseCase
 import com.example.domain.itemlist.usecase.RefreshItemsUseCase
 import com.example.presentation.base.BaseViewModel
 import com.example.presentation.base.SchedulerProvider
-import com.example.presentation.tags.viewstate.ItemListViewState
+import com.example.presentation.itemlist.viewstate.ItemListViewState
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 

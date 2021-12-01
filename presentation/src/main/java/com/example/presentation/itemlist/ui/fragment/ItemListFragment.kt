@@ -17,7 +17,7 @@ import com.example.presentation.base.ui.ext.visible
 import com.example.presentation.databinding.FragmentItemListBinding
 import com.example.presentation.itemlist.ui.adapter.ItemsAdapter
 import com.example.presentation.itemlist.viewmodel.ItemListViewModel
-import com.example.presentation.tags.viewstate.ItemListViewState
+import com.example.presentation.itemlist.viewstate.ItemListViewState
 import javax.inject.Inject
 
 class ItemListFragment: BaseFragment() {
