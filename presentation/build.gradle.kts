@@ -4,6 +4,7 @@ plugins {
     kotlin("kapt")
     id("kotlin-android-extensions")
     id("kotlin-android")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 

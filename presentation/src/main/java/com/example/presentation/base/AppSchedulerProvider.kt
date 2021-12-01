@@ -1,4 +1,4 @@
-package com.example.el_menus_challenge.util
+package com.example.presentation.base
 
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -7,10 +7,12 @@ import androidx.paging.rxjava2.cachedIn
 import com.example.domain.tags.model.TagModel
 import com.example.domain.tags.usecase.TagsUseCase
 import com.example.presentation.base.BaseViewModel
+import com.example.presentation.base.ui.NavManager
+import com.example.presentation.tags.ui.fragment.TagsFragmentDirections
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class TagsViewModel @Inject constructor(private val tagsUseCase: TagsUseCase):BaseViewModel() {
+class TagsViewModel @Inject constructor(private val tagsUseCase: TagsUseCase) : BaseViewModel() {
 
 
     fun getTags(): Flowable<PagingData<TagModel>> {
@@ -19,5 +21,15 @@ class TagsViewModel @Inject constructor(private val tagsUseCase: TagsUseCase):Ba
             .map { pagingData -> pagingData.filter { it.name != null } }
             .cachedIn(viewModelScope)
     }
+
+
+    fun navigateToSelectedTag(tagName: String?) {
+        tagName?.let {
+            val navDirections = TagsFragmentDirections
+                .actionTagsFragmentToItemListFragment(tagName)
+            NavManager.navigate(navDirections)
+        }
+    }
+
 
 }

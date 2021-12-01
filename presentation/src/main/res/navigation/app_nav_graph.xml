@@ -7,5 +7,19 @@
     <fragment
         android:id="@+id/tagsFragment"
         android:name="com.example.presentation.tags.ui.fragment.TagsFragment"
-        android:label="TagsFragment" />
+        android:label="TagsFragment" >
+        <action
+            android:id="@+id/action_tagsFragment_to_itemListFragment"
+            app:destination="@id/itemListFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/itemListFragment"
+        android:name="com.example.presentation.itemlist.ui.fragment.ItemListFragment"
+        android:label="ItemListFragment" >
+        <argument
+            android:name="tagName"
+            app:argType="string" />
+    </fragment>
 </navigation>

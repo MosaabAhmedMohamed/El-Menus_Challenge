@@ -5,9 +5,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.domain.tags.model.TagModel
 
-class TagsAdapter : PagingDataAdapter<TagModel, TagViewHolder>(
-    COMPARATOR
-) {
+class TagsAdapter(
+    private val onItemClick: (TagModel) -> Unit,
+) : PagingDataAdapter<TagModel, TagViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {
         return TagViewHolder.create(
@@ -16,14 +16,15 @@ class TagsAdapter : PagingDataAdapter<TagModel, TagViewHolder>(
     }
 
     override fun onBindViewHolder(holder: TagViewHolder, position: Int) {
-        getItem(position)?.let {
-            holder.bind(it)
+        getItem(position)?.let {tagModel->
+            holder.onBind(tagModel)
+            holder.itemView.setOnClickListener { onItemClick.invoke(tagModel) }
         }
     }
 
     companion object {
         private val COMPARATOR = object : DiffUtil.ItemCallback<TagModel>() {
-            override fun areItemsTheSame(oldItem: TagModel, newItem:TagModel): Boolean {
+            override fun areItemsTheSame(oldItem: TagModel, newItem: TagModel): Boolean {
                 return oldItem.id == newItem.id
             }
 

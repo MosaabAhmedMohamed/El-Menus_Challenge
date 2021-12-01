@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.tags.model.TagModel
 import com.example.presentation.base.ViewModelFactory
 import com.example.presentation.base.ui.BaseFragment
 import com.example.presentation.databinding.FragmentTagsBinding
@@ -18,6 +20,8 @@ class TagsFragment : BaseFragment() {
 
 
     private lateinit var binding: FragmentTagsBinding
+
+    private val tagsAdapter by lazy { TagsAdapter { onTagItemClicked(it) } }
 
     @Inject
     lateinit var tagsViewModelFactory: ViewModelFactory<TagsViewModel>
@@ -43,14 +47,19 @@ class TagsFragment : BaseFragment() {
 
 
     private fun initTagsRv() {
-        val tagsAdapter = TagsAdapter()
-        binding.productsListRv.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.productsListRv.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.productsListRv.adapter = tagsAdapter
 
-       tagsViewModel.getTags().subscribe {
-           tagsAdapter.submitData(lifecycle, it)
+        tagsViewModel.getTags().subscribe {
+            tagsAdapter.submitData(lifecycle, it)
         }.addTo(tagsViewModel.compositeDisposable)
 
+    }
+
+    private fun onTagItemClicked(it: TagModel) {
+        tagsViewModel.navigateToSelectedTag(it.name)
     }
 
 }
