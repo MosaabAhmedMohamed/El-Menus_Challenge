@@ -56,6 +56,9 @@ class ItemDetailFragment : BaseFragment() {
 
     override fun init() {
         binding.poster.transitionName = "${args.itemDetail.id}${binding.poster.transitionName}"
+       // binding.descTv.text = args.itemDetail.description
+        binding.collapsingToolbarLayout.title = args.itemDetail.name
+        binding.descTv.text = args.itemDetail.description
         observeViewState()
         Glide.with(binding.root)
             .load(args.itemDetail.photoUrl)
@@ -66,7 +69,6 @@ class ItemDetailFragment : BaseFragment() {
         /* itemsViewModel.itemListViewStateLD.observe(this, {
              handleViewState(it)
          })*/
-
     }
 
     private fun handleViewState(viewState: ItemListViewState) {
@@ -77,9 +79,7 @@ class ItemDetailFragment : BaseFragment() {
             is ItemListViewState.onError -> errorState(viewState.error)
             is ItemListViewState.onSuccess -> {
             }
-
         }
-
     }
 
 
