@@ -23,13 +23,20 @@ class ItemsAdapter(
         val item = products[position]
         item?.let {
             handleBinding(holder, item)
-            holder.itemView.setOnClickListener {
-                itemClickAction.invoke(
-                    item, holder.itemView.findViewById(
-                        R.id.poster
-                    )
+            setOnItemClicked(holder, item)
+        }
+    }
+
+    private fun setOnItemClicked(
+        holder: ItemViewHolder,
+        item: ItemUiModel
+    ) {
+        holder.itemView.setOnClickListener {
+            itemClickAction.invoke(
+                item, holder.itemView.findViewById(
+                    R.id.posterIv
                 )
-            }
+            )
         }
     }
 

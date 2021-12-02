@@ -49,8 +49,7 @@ class TagsDataSource @Inject constructor(
         state: PagingState<Int, TagLocalModel>
     ) = when (it) {
         LoadType.REFRESH -> {
-            val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-            remoteKeys?.nextKey?.minus(1) ?: 1
+             1
         }
         LoadType.PREPEND -> {
             val remoteKeys = getRemoteKeyForFirstItem(state)
@@ -77,8 +76,8 @@ class TagsDataSource @Inject constructor(
 
     private fun clearOnRefresh(loadType: LoadType) {
         if (loadType == LoadType.REFRESH) {
-            local.tagsRemoteKeyDao().clearRemoteKeys()
-            local.tagsDao().deleteAllEntries()
+            local.tagsRemoteKeyDao().clearRemoteKeys().subscribe()
+            local.tagsDao().deleteAllEntries().subscribe()
         }
     }
 
@@ -119,14 +118,6 @@ class TagsDataSource @Inject constructor(
             ?.let { tagModel ->
                 tagModel.tagName?.let { local.tagsRemoteKeyDao().remoteKeysByTagId(it) }
             }
-    }
-
-    private fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, TagLocalModel>): TagRemoteKey? {
-        return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.tagName?.let { id ->
-                local.tagsRemoteKeyDao().remoteKeysByTagId(id)
-            }
-        }
     }
 
     companion object {

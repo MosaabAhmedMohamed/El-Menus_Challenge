@@ -6,26 +6,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
-        android:id="@+id/poster"
+        android:id="@+id/posterIv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
         android:layout_margin="5dp"
         android:background="#F0F0F0"
-        android:contentDescription="@string/poster"
-        android:scaleType="centerCrop"
         android:transitionName="test"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_baseline_food_bank_24"
+        android:contentDescription="@string/poster"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     <TextView
-        android:id="@+id/tagTitleTv"
+        android:id="@+id/titleTv"
         style="@style/boldTextViewStyle"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:textSize="@dimen/dimen_16sp"
         android:background="@color/white_60"
         android:textAlignment="center"

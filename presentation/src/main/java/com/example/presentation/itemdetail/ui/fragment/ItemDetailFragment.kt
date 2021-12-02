@@ -1,8 +1,6 @@
 package com.example.presentation.itemdetail.ui.fragment
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +14,6 @@ import com.example.presentation.base.ViewModelFactory
 import com.example.presentation.base.ui.BaseFragment
 import com.example.presentation.databinding.FragmentItemDetailBinding
 import com.example.presentation.itemdetail.viewmodel.ItemDetailViewModel
-import com.example.presentation.itemlist.ui.fragment.ItemListFragmentArgs
 import com.example.presentation.itemlist.viewstate.ItemListViewState
 import javax.inject.Inject
 

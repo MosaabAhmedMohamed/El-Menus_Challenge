@@ -5,26 +5,26 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.presentation.R
 import com.example.presentation.base.ui.BaseViewHolder
-import com.example.presentation.databinding.ItemTagBinding
+import com.example.presentation.databinding.ItemFoodBinding
 import com.example.presentation.itemlist.model.ItemUiModel
 
-class ItemViewHolder(private val binding: ItemTagBinding) : BaseViewHolder<ItemUiModel>(binding.root) {
+class ItemViewHolder(private val binding: ItemFoodBinding) : BaseViewHolder<ItemUiModel>(binding.root) {
 
     override fun onBind(item: ItemUiModel?) {
         item?.let {
-            binding.tagTitleTv.text = it.name
+            binding.titleTv.text = it.name
             Glide.with(binding.root)
                 .load(it.photoUrl)
-                .into(binding.poster)
+                .into(binding.posterIv)
         }
     }
 
     companion object {
         fun create(parent: ViewGroup): ItemViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_tag, parent, false)
+                .inflate(R.layout.item_food, parent, false)
 
-            val binding = ItemTagBinding.bind(view)
+            val binding = ItemFoodBinding.bind(view)
 
             return ItemViewHolder(
                 binding

@@ -1,7 +1,6 @@
 package com.example.presentation.itemlist.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.TransitionInflater
 import com.example.presentation.R
 import com.example.presentation.base.ViewModelFactory
 import com.example.presentation.base.ui.BaseFragment

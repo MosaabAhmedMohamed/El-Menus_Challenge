@@ -18,5 +18,5 @@ interface ItemListDao {
     fun getItemList(): Flowable<List<ItemLocalModel>>
 
     @Query("delete from ItemLocalModel")
-    fun deleteAllEntries()
+    fun deleteAllEntries(): Completable
 }
