@@ -9,12 +9,12 @@ import androidx.navigation.fragment.navArgs
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
-import com.example.domain.itemlist.entity.model.ItemModel
 import com.example.presentation.base.ViewModelFactory
 import com.example.presentation.base.ui.BaseFragment
 import com.example.presentation.databinding.FragmentItemDetailBinding
 import com.example.presentation.itemdetail.viewmodel.ItemDetailViewModel
-import com.example.presentation.itemlist.viewstate.ItemListViewState
+import com.example.presentation.itemdetail.viewstate.ItemDetailViewState
+import com.example.presentation.itemlist.model.ItemUiModel
 import javax.inject.Inject
 
 class ItemDetailFragment : BaseFragment() {
@@ -44,7 +44,7 @@ class ItemDetailFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         sharedElementEnterTransition = ChangeBounds().apply {
-            duration = 500
+           // duration = 500
         }
         binding = FragmentItemDetailBinding.inflate(inflater, container, false)
         return binding.root
@@ -52,67 +52,31 @@ class ItemDetailFragment : BaseFragment() {
 
 
     override fun init() {
-        binding.poster.transitionName = "${args.itemDetail.id}${binding.poster.transitionName}"
-       // binding.descTv.text = args.itemDetail.description
-        binding.collapsingToolbarLayout.title = args.itemDetail.name
-        binding.descTv.text = args.itemDetail.description
         observeViewState()
-        Glide.with(binding.root)
-            .load(args.itemDetail.photoUrl)
-            .into(binding.poster)
+        itemDetailViewModel.setItemDetailModel(args.itemDetail)
+        binding.poster.transitionName = "${args.itemDetail.id}${binding.poster.transitionName}"
     }
 
     private fun observeViewState() {
-        /* itemsViewModel.itemListViewStateLD.observe(this, {
+         itemDetailViewModel.itemDetailViewStateLD.observe(this, {
              handleViewState(it)
-         })*/
+         })
     }
 
-    private fun handleViewState(viewState: ItemListViewState) {
+    private fun handleViewState(viewState: ItemDetailViewState) {
         when (viewState) {
-            ItemListViewState.Loading -> loadingState()
-            ItemListViewState.onEmptyState -> {
-            }
-            is ItemListViewState.onError -> errorState(viewState.error)
-            is ItemListViewState.onSuccess -> {
-            }
+            is ItemDetailViewState.onSuccess -> onItemsLoaded(viewState.result)
         }
     }
 
 
-    private fun errorState(error: Throwable? = null) {
-        /*  binding.errMessageRootView.rootView.visible()
-          showItemsViews(false)
-          binding.refreshSrl.stopRefresh()
-          binding.progressRootView.rootView.gone()*/
+    private fun onItemsLoaded(result: ItemUiModel) {
+        binding.collapsingToolbarLayout.title = result.name
+        binding.descTv.text = result.description
+        Glide.with(binding.root)
+            .load(result.photoUrl)
+            .into(binding.poster)
     }
 
-    private fun loadingState() {
-        /*  showItemsViews(false)
-          binding.progressRootView.rootView.visible()
-          binding.errMessageRootView.rootView.gone()*/
-    }
-
-    private fun onItemsLoaded(result: List<ItemModel>) {
-        /*  showItemsViews(true)
-          binding.refreshSrl.stopRefresh()
-          binding.progressRootView.rootView.gone()
-          binding.errMessageRootView.rootView.gone()*/
-    }
-
-    private fun onProductItemClicked(item: ItemModel) {
-        // requireActivity().navigateToProductDetails(item)
-    }
-
-    private fun showItemsViews(show: Boolean) {
-        //  binding.listRv.visibility(show)
-    }
-
-    override fun onViewClicked() {
-        super.onViewClicked()
-        /* binding.errMessageRootView.btnRetry.setOnClickListener {
-             getItems()
-         }*/
-    }
 
 }

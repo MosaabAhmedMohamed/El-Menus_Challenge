@@ -3,11 +3,11 @@ package com.example.presentation.tags.ui.adapter
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.example.domain.tags.model.TagModel
+import com.example.presentation.tags.model.TagUiModel
 
 class TagsAdapter(
-    private val onItemClick: (TagModel) -> Unit,
-) : PagingDataAdapter<TagModel, TagViewHolder>(COMPARATOR) {
+    private val onItemClick: (TagUiModel) -> Unit,
+) : PagingDataAdapter<TagUiModel, TagViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {
         return TagViewHolder.create(
@@ -23,12 +23,12 @@ class TagsAdapter(
     }
 
     companion object {
-        private val COMPARATOR = object : DiffUtil.ItemCallback<TagModel>() {
-            override fun areItemsTheSame(oldItem: TagModel, newItem: TagModel): Boolean {
+        private val COMPARATOR = object : DiffUtil.ItemCallback<TagUiModel>() {
+            override fun areItemsTheSame(oldItem: TagUiModel, newItem: TagUiModel): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: TagModel, newItem: TagModel): Boolean {
+            override fun areContentsTheSame(oldItem: TagUiModel, newItem: TagUiModel): Boolean {
                 return oldItem == newItem
             }
         }

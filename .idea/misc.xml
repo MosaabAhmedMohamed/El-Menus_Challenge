@@ -10,10 +10,12 @@
         <entry key="app/src/main/res/layout/item_tag.xml" value="0.25317028985507245" />
         <entry key="presentation/src/main/res/drawable/ic_baseline_food_bank_24.xml" value="0.103125" />
         <entry key="presentation/src/main/res/layout/activity_nav_host.xml" value="0.13229166666666667" />
+        <entry key="presentation/src/main/res/layout/dialog_loading.xml" value="0.10989583333333333" />
         <entry key="presentation/src/main/res/layout/fragment_item_detail.xml" value="0.1" />
         <entry key="presentation/src/main/res/layout/fragment_item_list.xml" value="0.13229166666666667" />
         <entry key="presentation/src/main/res/layout/fragment_tags.xml" value="0.1" />
         <entry key="presentation/src/main/res/layout/item_food.xml" value="0.11911231884057971" />
+        <entry key="presentation/src/main/res/layout/item_load_state.xml" value="0.11503623188405797" />
         <entry key="presentation/src/main/res/layout/item_tag.xml" value="0.17223910840932116" />
       </map>
     </option>

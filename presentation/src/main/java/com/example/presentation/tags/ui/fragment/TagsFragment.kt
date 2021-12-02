@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.tags.model.TagModel
 import com.example.presentation.R
 import com.example.presentation.base.ViewModelFactory
 import com.example.presentation.base.ui.BaseFragment
@@ -16,13 +15,18 @@ import com.example.presentation.base.ui.ext.gone
 import com.example.presentation.base.ui.ext.visibility
 import com.example.presentation.base.ui.ext.visible
 import com.example.presentation.databinding.FragmentTagsBinding
+import com.example.presentation.tags.model.TagUiModel
+import com.example.presentation.tags.ui.adapter.LoadStateAdapter
 import com.example.presentation.tags.ui.adapter.TagsAdapter
 import com.example.presentation.tags.viewmodel.TagsViewModel
 import com.example.presentation.tags.viewstate.TagsViewState
 import javax.inject.Inject
+import androidx.recyclerview.widget.LinearSnapHelper
+
+
+
 
 class TagsFragment : BaseFragment() {
-
 
     private lateinit var binding: FragmentTagsBinding
 
@@ -35,7 +39,6 @@ class TagsFragment : BaseFragment() {
             .get(TagsViewModel::class.java)
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,33 +48,34 @@ class TagsFragment : BaseFragment() {
         return binding.root
     }
 
-
     override fun init() {
         initTagsRv()
         observeViewState()
+        setRefreshListener()
     }
-
 
     private fun initTagsRv() {
         binding.productsListRv.setHasFixedSize(true)
-        binding.productsListRv.layoutManager =
-            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        binding.productsListRv.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.productsListRv.adapter = tagsAdapter
-
-
-        /* binding.productsListRv.adapter = tagsAdapter.withLoadStateHeaderAndFooter(
-             header = HeaderFooterAdapter(adapter),
-             footer = HeaderFooterAdapter(adapter)
-         )*/
+        setLoadStateAdapter()
         tagsAdapter.addLoadStateListener {
-            /* showLoading(it.refresh is LoadState.Loading)
-             showRetryDialog(it.refresh is LoadState.Error) {
-                 tagsAdapter.retry()
-             }*/
+            tagsViewModel.handleLoadState(it)
         }
+        setRecyclerSnapHelper()
+    }
 
-        binding.refreshSrl.setOnRefreshListener { tagsAdapter.refresh() }
+    private fun setRecyclerSnapHelper() {
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(binding.productsListRv)
+        binding.productsListRv.onFlingListener = snapHelper
+    }
 
+    private fun setLoadStateAdapter() {
+        binding.productsListRv.adapter = tagsAdapter.withLoadStateHeaderAndFooter(
+            header = LoadStateAdapter { tagsAdapter.retry() },
+            footer = LoadStateAdapter { tagsAdapter.retry() }
+        )
     }
 
     private fun observeViewState() {
@@ -84,19 +88,20 @@ class TagsFragment : BaseFragment() {
         when (viewState) {
             TagsViewState.Loading -> loadingState()
             TagsViewState.onEmptyState -> emptyState()
-            is TagsViewState.onError -> errorState(viewState.error)
+            is TagsViewState.onError -> errorState()
             is TagsViewState.onSuccess -> onItemsLoaded(viewState.result)
         }
-
     }
 
     private fun emptyState() {
-        errorState()
-        binding.errMessageRootView.btnRetry.gone()
-        binding.errMessageRootView.messageTv.text = getString(R.string.empty_product)
+        if (tagsAdapter.itemCount < 1) {
+            errorState()
+            binding.errMessageRootView.btnRetry.gone()
+            binding.errMessageRootView.messageTv.text = getString(R.string.empty_product)
+        }
     }
 
-    private fun errorState(error: Throwable? = null) {
+    private fun errorState() {
         binding.errMessageRootView.rootView.visible()
         showItemsViews(false)
         binding.refreshSrl.stopRefresh()
@@ -109,7 +114,7 @@ class TagsFragment : BaseFragment() {
         binding.errMessageRootView.rootView.gone()
     }
 
-    private fun onItemsLoaded(result: PagingData<TagModel>) {
+    private fun onItemsLoaded(result: PagingData<TagUiModel>) {
         showItemsViews(true)
         binding.refreshSrl.stopRefresh()
         binding.progressRootView.rootView.gone()
@@ -122,8 +127,19 @@ class TagsFragment : BaseFragment() {
     }
 
 
-    private fun onTagItemClicked(it: TagModel) {
+    private fun onTagItemClicked(it: TagUiModel) {
         tagsViewModel.navigateToSelectedTag(it.name)
+    }
+
+    override fun onViewClicked() {
+        super.onViewClicked()
+        binding.errMessageRootView.btnRetry.setOnClickListener {
+            tagsAdapter.refresh()
+        }
+    }
+
+    private fun setRefreshListener(){
+        binding.refreshSrl.setOnRefreshListener { tagsAdapter.refresh() }
     }
 
 }

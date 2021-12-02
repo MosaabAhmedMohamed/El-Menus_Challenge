@@ -1,19 +1,20 @@
 package com.example.presentation.itemlist.viewmodel
 
+import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.transition.ChangeBounds
-import androidx.transition.TransitionInflater
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.example.domain.itemlist.usecase.GetTagItemsUseCase
 import com.example.domain.itemlist.usecase.RefreshItemsUseCase
 import com.example.presentation.base.BaseViewModel
 import com.example.presentation.base.SchedulerProvider
 import com.example.presentation.base.ui.NavManager
-import com.example.presentation.itemlist.mapper.mapToUiModels
+import com.example.presentation.itemlist.model.mapper.mapToUiModels
 import com.example.presentation.itemlist.model.ItemUiModel
 import com.example.presentation.itemlist.ui.fragment.ItemListFragmentDirections
 import com.example.presentation.itemlist.viewstate.ItemListViewState
-import com.example.presentation.tags.ui.fragment.TagsFragmentDirections
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
@@ -52,10 +53,17 @@ class ItemListViewModel @Inject constructor(
             .addTo(compositeDisposable)
     }
 
-    fun navigateToItemDetail(itemUiModel: ItemUiModel) {
-            val navDirections = ItemListFragmentDirections
-                .actionItemListFragmentToItemDetailFragment(itemUiModel)
-            NavManager.navigate(navDirections)
+    fun navigateToItemDetail(
+        itemUiModel: ItemUiModel,
+        img: ImageView,
+        navController: NavController
+    ) {
+        val extras = FragmentNavigatorExtras(img to img.transitionName)
+        navController.navigate(
+            ItemListFragmentDirections
+                .actionItemListFragmentToItemDetailFragment(itemUiModel),
+            extras
+        )
     }
 
 

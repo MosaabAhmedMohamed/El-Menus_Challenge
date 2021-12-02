@@ -1,5 +1,6 @@
 package com.example.data.tags.source
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -21,7 +22,6 @@ class TagsDataSource @Inject constructor(
     private val local: ElmenusChallengeDatabase
 ) : RxRemoteMediator<Int, TagLocalModel>() {
 
-
     override fun loadSingle(
         loadType: LoadType,
         state: PagingState<Int, TagLocalModel>
@@ -33,13 +33,13 @@ class TagsDataSource @Inject constructor(
                 if (page == INVALID_PAGE) {
                     Single.just(MediatorResult.Success(endOfPaginationReached = true))
                 } else {
+
                     remote.getTags(page)
                         .map { it.tags?.mapToLocalModels() }
                         .map { insertToDb(page, loadType, it) }
                         .map<MediatorResult> { MediatorResult.Success(endOfPaginationReached = false) }
                         .onErrorReturn { MediatorResult.Error(it) }
                 }
-
             }
             .onErrorReturn { MediatorResult.Error(it) }
     }
@@ -76,6 +76,7 @@ class TagsDataSource @Inject constructor(
 
     private fun clearOnRefresh(loadType: LoadType) {
         if (loadType == LoadType.REFRESH) {
+            Log.d("testTAG", "clearOnRefresh: ")
             local.tagsRemoteKeyDao().clearRemoteKeys().subscribe()
             local.tagsDao().deleteAllEntries().subscribe()
         }
