@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 
-class HeaderFooterAdapter(
+class LoadStateAdapter(
     private val retryCallback: () -> Unit
 ) : LoadStateAdapter<LoadStateViewHolder>() {
 

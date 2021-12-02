@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.presentation.R
 import com.example.presentation.base.ViewModelFactory
 import com.example.presentation.base.ui.BaseFragment
@@ -30,8 +29,8 @@ class ItemListFragment : BaseFragment() {
     private lateinit var binding: FragmentItemListBinding
 
     private val itemListAdapter by lazy {
-        ItemsAdapter {item,img->
-            onProductItemClicked(item,img)
+        ItemsAdapter { item, img ->
+            onProductItemClicked(item, img)
         }
     }
 
@@ -110,7 +109,7 @@ class ItemListFragment : BaseFragment() {
     }
 
     private fun initItemsRv() {
-        binding.listRv.layoutManager = LinearLayoutManager(requireContext())
+        binding.listRv.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.listRv.adapter = itemListAdapter
 
         binding.listRv.apply {
@@ -125,16 +124,8 @@ class ItemListFragment : BaseFragment() {
     }
 
     private fun onProductItemClicked(item: ItemUiModel, img: ImageView) {
-        /* itemsViewModel.navigateToItemDetail(item)*/
-
         img.transitionName = "${item.id}${img.transitionName}"
-        val extras = FragmentNavigatorExtras(img to img.transitionName)
-
-        requireView().findNavController().navigate(
-            ItemListFragmentDirections
-                .actionItemListFragmentToItemDetailFragment(item),
-            extras
-        )
+        itemsViewModel.navigateToItemDetail(item,img,requireView().findNavController())
     }
 
     private fun getItems() {

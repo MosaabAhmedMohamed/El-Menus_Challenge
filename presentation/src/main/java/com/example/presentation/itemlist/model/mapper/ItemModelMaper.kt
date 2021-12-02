@@ -1,4 +1,4 @@
-package com.example.presentation.itemlist.mapper
+package com.example.presentation.itemlist.model.mapper
 
 import com.example.domain.itemlist.entity.model.ItemModel
 import com.example.presentation.itemlist.model.ItemUiModel
