@@ -42,18 +42,16 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
+        android:padding="@dimen/dimen_16dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <TextView
             android:id="@+id/descTv"
-            style="@style/boldTextViewStyle"
+            style="@style/textViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/dimen_16sp"
-            android:background="@color/white_60"
             android:textAlignment="center"
-            android:padding="@dimen/dimen_8dp"
             />
 
     </androidx.core.widget.NestedScrollView>

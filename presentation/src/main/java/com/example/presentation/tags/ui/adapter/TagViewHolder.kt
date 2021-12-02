@@ -16,6 +16,7 @@ class TagViewHolder(private val binding: ItemTagBinding) : BaseViewHolder<TagUiM
 
             Glide.with(binding.root)
                 .load(it.photoURL)
+                .centerCrop()
                 .into(binding.poster)
         }
     }

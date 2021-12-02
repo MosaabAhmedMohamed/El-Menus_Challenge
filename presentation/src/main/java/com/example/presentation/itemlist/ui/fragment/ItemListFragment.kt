@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.presentation.R
 import com.example.presentation.base.ViewModelFactory
 import com.example.presentation.base.ui.BaseFragment
@@ -109,7 +110,7 @@ class ItemListFragment : BaseFragment() {
     }
 
     private fun initItemsRv() {
-        binding.listRv.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.listRv.layoutManager = LinearLayoutManager(requireContext())
         binding.listRv.adapter = itemListAdapter
 
         binding.listRv.apply {

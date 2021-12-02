@@ -76,7 +76,6 @@ class TagsDataSource @Inject constructor(
 
     private fun clearOnRefresh(loadType: LoadType) {
         if (loadType == LoadType.REFRESH) {
-            Log.d("testTAG", "clearOnRefresh: ")
             local.tagsRemoteKeyDao().clearRemoteKeys().subscribe()
             local.tagsDao().deleteAllEntries().subscribe()
         }

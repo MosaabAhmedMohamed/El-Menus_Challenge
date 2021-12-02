@@ -15,6 +15,8 @@ class ItemViewHolder(private val binding: ItemFoodBinding) : BaseViewHolder<Item
             binding.titleTv.text = it.name
             Glide.with(binding.root)
                 .load(it.photoUrl)
+                .centerCrop()
+                .placeholder(R.drawable.ic_baseline_food_bank_24)
                 .into(binding.posterIv)
         }
     }
