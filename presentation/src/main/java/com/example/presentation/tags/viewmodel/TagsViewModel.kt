@@ -31,8 +31,8 @@ class TagsViewModel @Inject constructor(private val tagsUseCase: TagsUseCase) : 
             .cachedIn(viewModelScope)
     }
 
-    fun handleLoadState(combinedLoadStates: CombinedLoadStates) {
-        when(combinedLoadStates.refresh){
+    fun handleLoadState(loadState: CombinedLoadStates) {
+        when(loadState.refresh){
             is LoadState.NotLoading -> {}
             LoadState.Loading -> {
                 tagsViewStateLDPrivate.value = TagsViewState.Loading
@@ -40,6 +40,10 @@ class TagsViewModel @Inject constructor(private val tagsUseCase: TagsUseCase) : 
             is LoadState.Error -> {
                 tagsViewStateLDPrivate.value = TagsViewState.onError
             }
+        }
+        if (loadState.append.endOfPaginationReached)
+        {
+            tagsViewStateLDPrivate.value = TagsViewState.onEmptyState
         }
     }
 
@@ -54,6 +58,7 @@ class TagsViewModel @Inject constructor(private val tagsUseCase: TagsUseCase) : 
 
     init {
         getTags().subscribe {
+
             tagsViewStateLDPrivate.value = TagsViewState.onSuccess(it)
         }.addTo(compositeDisposable)
     }

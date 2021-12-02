@@ -16,6 +16,7 @@ import com.example.presentation.base.ui.ext.gone
 import com.example.presentation.base.ui.ext.visibility
 import com.example.presentation.base.ui.ext.visible
 import com.example.presentation.databinding.FragmentTagsBinding
+import com.example.presentation.tags.ui.adapter.HeaderFooterAdapter
 import com.example.presentation.tags.ui.adapter.TagsAdapter
 import com.example.presentation.tags.viewmodel.TagsViewModel
 import com.example.presentation.tags.viewstate.TagsViewState
@@ -54,10 +55,10 @@ class TagsFragment : BaseFragment() {
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.productsListRv.adapter = tagsAdapter
 
-        /* binding.productsListRv.adapter = tagsAdapter.withLoadStateHeaderAndFooter(
-             header = HeaderFooterAdapter(adapter),
-             footer = HeaderFooterAdapter(adapter)
-         )*/
+        binding.productsListRv.adapter = tagsAdapter.withLoadStateHeaderAndFooter(
+            header = HeaderFooterAdapter { tagsAdapter.retry() },
+            footer = HeaderFooterAdapter { tagsAdapter.retry() }
+        )
 
         tagsAdapter.addLoadStateListener {
             tagsViewModel.handleLoadState(it)
@@ -82,9 +83,11 @@ class TagsFragment : BaseFragment() {
     }
 
     private fun emptyState() {
-        errorState()
-        binding.errMessageRootView.btnRetry.gone()
-        binding.errMessageRootView.messageTv.text = getString(R.string.empty_product)
+        if (tagsAdapter.itemCount < 1) {
+            errorState()
+            binding.errMessageRootView.btnRetry.gone()
+            binding.errMessageRootView.messageTv.text = getString(R.string.empty_product)
+        }
     }
 
     private fun errorState() {
