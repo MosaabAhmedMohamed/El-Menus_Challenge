@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.presentation.base.ui.custom.CustomSwipeRefreshLayout
-    android:id="@+id/refresh_srl"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.presentation.base.ui.custom.CustomSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refresh_srl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?viewBackground">
@@ -22,7 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_tag"/>
+            tools:listitem="@layout/item_tag" />
 
         <include
             android:id="@+id/progressRootView"

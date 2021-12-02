@@ -21,5 +21,17 @@
         <argument
             android:name="tagName"
             app:argType="string" />
+        <action
+            android:id="@+id/action_itemListFragment_to_itemDetailFragment"
+            app:destination="@id/itemDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/itemDetailFragment"
+        android:name="com.example.presentation.itemdetail.ui.fragment.ItemDetailFragment"
+        android:label="ItemDetailFragment" >
+        <argument
+            android:name="itemDetail"
+            app:argType="com.example.presentation.itemlist.model.ItemUiModel" />
     </fragment>
 </navigation>

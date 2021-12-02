@@ -2,14 +2,17 @@ package com.example.presentation.itemlist.ui.adapter
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.itemlist.entity.model.ItemModel
+import com.example.presentation.R
+import com.example.presentation.itemlist.model.ItemUiModel
 
 class ItemsAdapter(
-    private val itemClickAction: (item: ItemModel) -> Unit) :
+    private val itemClickAction: (item: ItemUiModel, posterImg: ImageView) -> Unit
+) :
     RecyclerView.Adapter<ItemViewHolder>() {
 
-    private var products: MutableList<ItemModel?> = mutableListOf()
+    private var products: MutableList<ItemUiModel?> = mutableListOf()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -20,13 +23,26 @@ class ItemsAdapter(
         val item = products[position]
         item?.let {
             handleBinding(holder, item)
-            holder.itemView.setOnClickListener { itemClickAction.invoke(item) }
+            setOnItemClicked(holder, item)
+        }
+    }
+
+    private fun setOnItemClicked(
+        holder: ItemViewHolder,
+        item: ItemUiModel
+    ) {
+        holder.itemView.setOnClickListener {
+            itemClickAction.invoke(
+                item, holder.itemView.findViewById(
+                    R.id.posterIv
+                )
+            )
         }
     }
 
     private fun handleBinding(
         holder: ItemViewHolder,
-        item: ItemModel?
+        item: ItemUiModel?
     ) {
         holder.onBind(item)
     }
@@ -35,7 +51,7 @@ class ItemsAdapter(
     override fun getItemCount() = products.size ?: 0
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setItems(result: MutableList<ItemModel?>) {
+    fun setItems(result: MutableList<ItemUiModel?>) {
         products = result
         notifyDataSetChanged()
     }

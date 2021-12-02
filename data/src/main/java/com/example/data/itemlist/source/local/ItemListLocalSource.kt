@@ -14,7 +14,7 @@ class ItemListLocalSource @Inject constructor(private val itemListDao: ItemListD
 
     fun cacheItemList(items: List<ItemLocalModel>): Completable {
         return Completable.defer {
-            itemListDao.deleteAllEntries()
+            itemListDao.deleteAllEntries().subscribe()
             itemListDao.insertItemList(items).subscribe()
             Completable.complete()
         }

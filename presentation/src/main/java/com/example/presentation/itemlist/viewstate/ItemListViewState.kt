@@ -1,10 +1,10 @@
-package com.example.presentation.tags.viewstate
+package com.example.presentation.itemlist.viewstate
 
-import com.example.domain.itemlist.entity.model.ItemModel
+import com.example.presentation.itemlist.model.ItemUiModel
 
 sealed class ItemListViewState {
     object Loading : ItemListViewState()
     object onEmptyState : ItemListViewState()
-    data class onSuccess(val result: List<ItemModel>) : ItemListViewState()
+    data class onSuccess(val result: List<ItemUiModel>) : ItemListViewState()
     data class onError(val error: Throwable) : ItemListViewState()
 }
