@@ -23,7 +23,6 @@ import javax.inject.Inject
 
 class TagsFragment : BaseFragment() {
 
-
     private lateinit var binding: FragmentTagsBinding
 
     private val tagsAdapter by lazy { TagsAdapter { onTagItemClicked(it) } }
@@ -35,7 +34,6 @@ class TagsFragment : BaseFragment() {
             .get(TagsViewModel::class.java)
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,12 +43,10 @@ class TagsFragment : BaseFragment() {
         return binding.root
     }
 
-
     override fun init() {
         initTagsRv()
         observeViewState()
     }
-
 
     private fun initTagsRv() {
         binding.productsListRv.setHasFixedSize(true)
@@ -58,20 +54,16 @@ class TagsFragment : BaseFragment() {
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.productsListRv.adapter = tagsAdapter
 
-
         /* binding.productsListRv.adapter = tagsAdapter.withLoadStateHeaderAndFooter(
              header = HeaderFooterAdapter(adapter),
              footer = HeaderFooterAdapter(adapter)
          )*/
+
         tagsAdapter.addLoadStateListener {
-            /* showLoading(it.refresh is LoadState.Loading)
-             showRetryDialog(it.refresh is LoadState.Error) {
-                 tagsAdapter.retry()
-             }*/
+            tagsViewModel.handleLoadState(it)
         }
 
         binding.refreshSrl.setOnRefreshListener { tagsAdapter.refresh() }
-
     }
 
     private fun observeViewState() {
@@ -84,10 +76,9 @@ class TagsFragment : BaseFragment() {
         when (viewState) {
             TagsViewState.Loading -> loadingState()
             TagsViewState.onEmptyState -> emptyState()
-            is TagsViewState.onError -> errorState(viewState.error)
+            is TagsViewState.onError -> errorState()
             is TagsViewState.onSuccess -> onItemsLoaded(viewState.result)
         }
-
     }
 
     private fun emptyState() {
@@ -96,7 +87,7 @@ class TagsFragment : BaseFragment() {
         binding.errMessageRootView.messageTv.text = getString(R.string.empty_product)
     }
 
-    private fun errorState(error: Throwable? = null) {
+    private fun errorState() {
         binding.errMessageRootView.rootView.visible()
         showItemsViews(false)
         binding.refreshSrl.stopRefresh()
@@ -124,6 +115,13 @@ class TagsFragment : BaseFragment() {
 
     private fun onTagItemClicked(it: TagModel) {
         tagsViewModel.navigateToSelectedTag(it.name)
+    }
+
+    override fun onViewClicked() {
+        super.onViewClicked()
+        binding.errMessageRootView.btnRetry.setOnClickListener {
+            tagsAdapter.refresh()
+        }
     }
 
 }
