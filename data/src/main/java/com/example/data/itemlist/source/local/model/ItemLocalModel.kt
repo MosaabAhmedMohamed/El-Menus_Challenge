@@ -22,4 +22,7 @@ data class ItemLocalModel(
     @ColumnInfo(name = "description")
     var description: String? = null,
 
+    @ColumnInfo(name = "tagId")
+    var tagId: String
+
 )

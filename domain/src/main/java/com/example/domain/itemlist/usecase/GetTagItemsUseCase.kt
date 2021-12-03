@@ -8,8 +8,8 @@ import javax.inject.Inject
 
 class GetTagItemsUseCase @Inject constructor(private val itemListRepository: ItemListRepository) {
 
-    fun getItems(tagName:String): Flowable<List<ItemModel>> {
-        return itemListRepository.getItems(ItemListPrams(tagName))
+    fun getItems(tagName: String, tagId: String): Flowable<List<ItemModel>> {
+        return itemListRepository.getItems(ItemListPrams(tagName, tagId))
     }
 
 }

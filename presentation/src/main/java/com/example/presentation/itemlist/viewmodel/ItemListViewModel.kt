@@ -4,13 +4,11 @@ import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.example.domain.itemlist.usecase.GetTagItemsUseCase
 import com.example.domain.itemlist.usecase.RefreshItemsUseCase
 import com.example.presentation.base.BaseViewModel
 import com.example.presentation.base.SchedulerProvider
-import com.example.presentation.base.ui.NavManager
 import com.example.presentation.itemlist.model.mapper.mapToUiModels
 import com.example.presentation.itemlist.model.ItemUiModel
 import com.example.presentation.itemlist.ui.fragment.ItemListFragmentDirections
@@ -27,8 +25,11 @@ class ItemListViewModel @Inject constructor(
     private val itemListViewStateLDPrivate by lazy { MutableLiveData<ItemListViewState>() }
     val itemListViewStateLD: LiveData<ItemListViewState> get() = itemListViewStateLDPrivate
 
-    fun getItemList(tagName: String) {
-        getTagItemsUseCase.getItems(tagName)
+    private lateinit var tagName: String
+    private lateinit var tagId: String
+
+    fun getItemList() {
+        getTagItemsUseCase.getItems(tagName,tagId)
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .doOnSubscribe {
@@ -46,8 +47,8 @@ class ItemListViewModel @Inject constructor(
             .addTo(compositeDisposable)
     }
 
-    fun refreshItemList(tagName: String) {
-        refreshItemsUseCase.refreshItems(tagName)
+    fun refreshItemList() {
+        refreshItemsUseCase.refreshItems(tagName,tagId)
             .subscribeOn(schedulerProvider.io())
             .subscribe()
             .addTo(compositeDisposable)
@@ -64,6 +65,11 @@ class ItemListViewModel @Inject constructor(
                 .actionItemListFragmentToItemDetailFragment(itemUiModel),
             extras
         )
+    }
+
+    fun setTagInfo(tagId: String, tagName: String) {
+        this.tagId = tagId
+        this.tagName = tagName
     }
 
 

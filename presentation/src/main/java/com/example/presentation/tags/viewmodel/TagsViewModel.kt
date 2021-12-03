@@ -31,8 +31,9 @@ class TagsViewModel @Inject constructor(private val tagsUseCase: TagsUseCase) : 
     }
 
     fun handleLoadState(loadState: CombinedLoadStates) {
-        when(loadState.refresh){
-            is LoadState.NotLoading -> {}
+        when (loadState.refresh) {
+            is LoadState.NotLoading -> {
+            }
             LoadState.Loading -> {
                 Log.d("testTAG", "handleLoadState: 1")
                 tagsViewStateLDPrivate.value = TagsViewState.Loading
@@ -43,8 +44,7 @@ class TagsViewModel @Inject constructor(private val tagsUseCase: TagsUseCase) : 
                 tagsViewStateLDPrivate.value = TagsViewState.onError
             }
         }
-        if (loadState.append.endOfPaginationReached)
-        {
+        if (loadState.append.endOfPaginationReached) {
             Log.d("testTAG", "handleLoadState: 3")
 
             tagsViewStateLDPrivate.value = TagsViewState.onEmptyState
@@ -52,10 +52,10 @@ class TagsViewModel @Inject constructor(private val tagsUseCase: TagsUseCase) : 
     }
 
 
-    fun navigateToSelectedTag(tagName: String?) {
+    fun navigateToSelectedTag(tagName: String?, id: String) {
         tagName?.let {
             val navDirections = TagsFragmentDirections
-                .actionTagsFragmentToItemListFragment(tagName)
+                .actionTagsFragmentToItemListFragment(tagName, id)
             NavManager.navigate(navDirections)
         }
     }

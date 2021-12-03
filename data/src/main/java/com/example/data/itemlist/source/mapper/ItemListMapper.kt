@@ -4,16 +4,17 @@ import com.example.data.itemlist.source.local.model.ItemLocalModel
 import com.example.data.itemlist.source.remote.model.ItemRemoteModel
 import com.example.domain.itemlist.entity.model.ItemModel
 
-fun List<ItemRemoteModel>.mapToLocalModels(): List<ItemLocalModel> {
-    return this.map { it.mapToLocalModel() }
+fun List<ItemRemoteModel>.mapToLocalModels(tagId: String): List<ItemLocalModel> {
+    return this.map { it.mapToLocalModel(tagId) }
 }
 
-fun ItemRemoteModel.mapToLocalModel(): ItemLocalModel {
+fun ItemRemoteModel.mapToLocalModel(tagId: String): ItemLocalModel {
     return ItemLocalModel(
-        this.id.toString(),
+        this.id.toString().plus(tagId),
         this.name,
         this.photoUrl,
-        this.description
+        this.description,
+        tagId
     )
 }
 

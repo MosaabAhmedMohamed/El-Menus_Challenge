@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_itemListFragment_to_itemDetailFragment"
             app:destination="@id/itemDetailFragment" />
+        <argument
+            android:name="tagId"
+            app:argType="string" />
     </fragment>
 
     <fragment

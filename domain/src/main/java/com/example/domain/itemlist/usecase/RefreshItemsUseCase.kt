@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class RefreshItemsUseCase @Inject constructor(private val itemListRepository: ItemListRepository) {
 
-    fun refreshItems(tagName: String): Completable {
-        return itemListRepository.reFetchItemsFromRemote(ItemListPrams(tagName))
+    fun refreshItems(tagName: String,tagId: String): Completable {
+        return itemListRepository.reFetchItemsFromRemote(ItemListPrams(tagName,tagId))
     }
 
 }

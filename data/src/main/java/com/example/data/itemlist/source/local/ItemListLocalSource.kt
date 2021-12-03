@@ -8,13 +8,13 @@ import javax.inject.Inject
 
 class ItemListLocalSource @Inject constructor(private val itemListDao: ItemListDao) {
 
-    fun getItemList(): Flowable<List<ItemLocalModel>> {
-        return itemListDao.getItemList()
+    fun getItemList(tagId: String): Flowable<List<ItemLocalModel>> {
+        return itemListDao.getItemList(tagId)
     }
 
-    fun cacheItemList(items: List<ItemLocalModel>): Completable {
+    fun cacheItemList(items: List<ItemLocalModel>, tagId: String): Completable {
         return Completable.defer {
-            itemListDao.deleteAllEntries().subscribe()
+            itemListDao.deleteAllEntriesOfTag(tagId).subscribe()
             itemListDao.insertItemList(items).subscribe()
             Completable.complete()
         }

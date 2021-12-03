@@ -22,9 +22,7 @@ abstract class ElmenusChallengeDatabase : RoomDatabase() {
     abstract fun tagsRemoteKeyDao(): TagsRemoteKeyDao
 
     abstract fun itemListDao(): ItemListDao
-
-
 }
 
-const val ELMENUSChallenge_DATABASE_VERSION_NUMBER = 8
+const val ELMENUSChallenge_DATABASE_VERSION_NUMBER = 13
 

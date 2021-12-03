@@ -128,7 +128,7 @@ class TagsFragment : BaseFragment() {
 
 
     private fun onTagItemClicked(it: TagUiModel) {
-        tagsViewModel.navigateToSelectedTag(it.name)
+        tagsViewModel.navigateToSelectedTag(it.name,it.id)
     }
 
     override fun onViewClicked() {

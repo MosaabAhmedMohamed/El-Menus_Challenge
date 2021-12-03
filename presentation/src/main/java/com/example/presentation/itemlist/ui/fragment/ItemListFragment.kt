@@ -54,6 +54,7 @@ class ItemListFragment : BaseFragment() {
 
 
     override fun init() {
+        itemsViewModel.setTagInfo(args.tagId,args.tagName)
         initRefresh()
         observeViewState()
         initItemsRv()
@@ -131,12 +132,12 @@ class ItemListFragment : BaseFragment() {
 
     private fun getItems() {
         itemListAdapter.clear()
-        itemsViewModel.getItemList(args.tagName)
+        itemsViewModel.getItemList()
     }
 
     private fun refreshItems() {
         itemListAdapter.clear()
-        itemsViewModel.refreshItemList(args.tagName)
+        itemsViewModel.refreshItemList()
     }
 
     private fun showItemsViews(show: Boolean) {

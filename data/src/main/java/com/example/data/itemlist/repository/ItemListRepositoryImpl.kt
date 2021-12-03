@@ -20,7 +20,7 @@ class ItemListRepositoryImpl @Inject constructor(
 
 
     override fun getItems(itemListPrams: ItemListPrams): Flowable<List<ItemModel>> {
-        return itemListLocalSource.getItemList()
+        return itemListLocalSource.getItemList(itemListPrams.tagId)
             .flatMap {
                 if (it.isNullOrEmpty()) {
                     loadFromRemoteAndCache(itemListPrams)
@@ -39,14 +39,17 @@ class ItemListRepositoryImpl @Inject constructor(
     private fun loadFromRemoteAndCache(itemListPrams: ItemListPrams) {
         itemListRemoteSource.getItems(itemListPrams).flatMap {
             it.items?.let {
-                cacheProducts(it.mapToLocalModels()).subscribe()
+                cacheItems(
+                    it.mapToLocalModels(itemListPrams.tagId),
+                    itemListPrams.tagId
+                ).subscribe()
             }
             return@flatMap Single.just(true)
         }.subscribe()
     }
 
-    private fun cacheProducts(products: List<ItemLocalModel>) =
-        itemListLocalSource.cacheItemList(products)
+    private fun cacheItems(products: List<ItemLocalModel>, tagId: String) =
+        itemListLocalSource.cacheItemList(products,tagId)
 
 }
 

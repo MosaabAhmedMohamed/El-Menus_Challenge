@@ -14,9 +14,9 @@ interface ItemListDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItemList(products: List<ItemLocalModel>): Completable
 
-    @Query("select * from ItemLocalModel")
-    fun getItemList(): Flowable<List<ItemLocalModel>>
+    @Query("select * from ItemLocalModel where tagId =:tagId")
+    fun getItemList(tagId: String): Flowable<List<ItemLocalModel>>
 
-    @Query("delete from ItemLocalModel")
-    fun deleteAllEntries(): Completable
+    @Query("delete from ItemLocalModel where tagId =:tagId")
+    fun deleteAllEntriesOfTag(tagId: String): Completable
 }
