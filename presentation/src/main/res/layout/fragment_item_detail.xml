@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
+            style="@style/toolbarStyle"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:title="Collapsing"
             app:toolbarId="@+id/toolbar">
@@ -50,7 +51,7 @@
             style="@style/textViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/dimen_16sp"
+            android:textSize="@dimen/dimen_14sp"
             android:textAlignment="center"
             />
 
