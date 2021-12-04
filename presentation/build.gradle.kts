@@ -4,6 +4,7 @@ plugins {
     kotlin("kapt")
     id("kotlin-android-extensions")
     id("kotlin-android")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 
@@ -52,16 +53,25 @@ android {
     kotlinOptions{
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+    android.buildFeatures.viewBinding = true
 
 }
 
 
 dependencies {
 
+    implementation(project(":core"))
+    implementation(project(":domain"))
+
     implementation(kotlin("stdlib-jdk7"))
     implementation(SupportLibs.ANDROIDX_APPCOMPAT)
     implementation(SupportLibs.ANDROIDX_CORE_KTX)
+    implementation(SupportLibs.ANDROIDX_CONSTRAINT_LAYOUT)
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("com.google.android.material:material:1.4.0")
+
+
 
     testImplementation(TestingLib.JUNIT)
     testImplementation(TestingLib.RoboElectric)
@@ -101,4 +111,17 @@ dependencies {
     api("androidx.room:room-runtime:2.3.0")
     implementation("androidx.room:room-common:2.3.0")
 
+
+    //Navigation
+    implementation(NAVIGATION.NAVIGATION_FRAGMENT)
+    implementation(NAVIGATION.NAVIGATION_UI)
+
+    //Paging
+    implementation(PAGING.PAGING_RUNTIME)
+    implementation(PAGING.PAGING_COMMON)
+    implementation(PAGING.PAGING_RX)
+
+    //COIL
+    implementation(GLIDE.GLIDE)
+    kapt(GLIDE.GLIDE_ANO)
 }

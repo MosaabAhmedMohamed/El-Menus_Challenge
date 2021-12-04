@@ -27,7 +27,9 @@ object Versions {
     const val ROOM = "2.3.0"
     const val MOCKITO = "3.12.4"
     const val lifecycle = "1.1.1"
-
+    const val PAGING_3 = "3.0.1"
+    const val NAVIGATION="2.3.5"
+    const val GLIDE = "4.12.0"
 
 }
 
@@ -95,3 +97,22 @@ object LOGGING_INTERCEPTORS {
     const val LOGGING_INTERCEPTORS =
         "com.squareup.okhttp3:logging-interceptor:${Versions.LOGGING_INTERCEPTORS}"
 }
+
+object PAGING {
+    const val PAGING_RUNTIME = "androidx.paging:paging-runtime-ktx:${Versions.PAGING_3}"
+    const val PAGING_COMMON = "androidx.paging:paging-common-ktx:${Versions.PAGING_3}"
+    const val PAGING_RX = "androidx.paging:paging-rxjava2:${Versions.PAGING_3}"
+}
+
+object NAVIGATION {
+    const val NAVIGATION_FRAGMENT = "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}"
+    const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
+}
+
+
+object GLIDE {
+    const val GLIDE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
+    const val GLIDE_ANO = "com.github.bumptech.glide:compiler:${Versions.GLIDE}"
+}
+
+

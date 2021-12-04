@@ -58,6 +58,9 @@ android {
 
 dependencies {
 
+    implementation(project(":core"))
+    implementation(project(":domain"))
+
     implementation(kotlin("stdlib-jdk7"))
     implementation(SupportLibs.ANDROIDX_APPCOMPAT)
     implementation(SupportLibs.ANDROIDX_CORE_KTX)
@@ -100,5 +103,10 @@ dependencies {
     kapt("androidx.room:room-compiler:2.3.0")
     api("androidx.room:room-runtime:2.3.0")
     implementation("androidx.room:room-common:2.3.0")
+
+    //Paging
+    implementation(PAGING.PAGING_RUNTIME)
+    implementation(PAGING.PAGING_COMMON)
+    implementation(PAGING.PAGING_RX)
 
 }

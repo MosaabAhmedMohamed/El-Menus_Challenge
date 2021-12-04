@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">El-Menus_Challenge</string>
+    <string name="poster">Poster</string>
+
+
+    <string name="opps"> Opps </string>
+    <string name="error_desc"> Something went wrong !</string>
+    <string name="retry"> Retry </string>
+    <string name="empty_product">there\'s no items available now </string>
+    <string name="products">Products</string>
+    <string name="product_detail">Product Detail</string>
+    <string name="item_list">Tag Items</string>
+</resources>

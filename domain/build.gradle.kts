@@ -63,6 +63,9 @@ dependencies {
     implementation(SupportLibs.ANDROIDX_CORE_KTX)
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
 
+    testImplementation(project(mapOf("path" to ":core")))
+
+
     testImplementation(TestingLib.JUNIT)
     testImplementation(TestingLib.RoboElectric)
     testImplementation(TestingLib.mockito)
@@ -100,5 +103,10 @@ dependencies {
     kapt("androidx.room:room-compiler:2.3.0")
     api("androidx.room:room-runtime:2.3.0")
     implementation("androidx.room:room-common:2.3.0")
+
+    //Paging
+    implementation(PAGING.PAGING_RUNTIME)
+    implementation(PAGING.PAGING_COMMON)
+    implementation(PAGING.PAGING_RX)
 
 }
