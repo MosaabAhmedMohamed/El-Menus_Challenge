@@ -1,6 +1,5 @@
 package com.example.data.tags.source
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -52,9 +51,7 @@ class TagsDataSource @Inject constructor(
              1
         }
         LoadType.PREPEND -> {
-            val remoteKeys = getRemoteKeyForFirstItem(state)
-                ?: throw InvalidObjectException("Result is empty")
-            remoteKeys.prevKey ?: INVALID_PAGE
+            INVALID_PAGE
         }
         LoadType.APPEND -> {
             val remoteKeys = getRemoteKeyForLastItem(state)

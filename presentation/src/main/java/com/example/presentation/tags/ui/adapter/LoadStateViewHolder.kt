@@ -2,7 +2,6 @@ package com.example.presentation.tags.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import com.example.presentation.R
 import com.example.presentation.base.ui.BaseViewHolder
@@ -15,14 +14,11 @@ class LoadStateViewHolder(
 
 
     override fun onBind(item: LoadState?) {
-        binding.progressBar.isVisible = item is LoadState.Loading
-        binding.retryButton.isVisible = item is LoadState.Error
-        binding.errorMsg.isVisible = !(item as? LoadState.Error)?.error?.message.isNullOrBlank()
-        binding.errorMsg.text = (item as? LoadState.Error)?.error?.message
+        binding.loadingView.handleVisibility(item is LoadState.Loading)
+        binding.errorView.handleVisibility(item is LoadState.Error)
+        binding.errorView.errorMessage((item as? LoadState.Error)?.error?.message?:"")
 
-        binding.retryButton.also {
-            it.setOnClickListener { retryCallback() }
-        }
+        binding.errorView.setOnClickListener { retryCallback() }
     }
 
     companion object{

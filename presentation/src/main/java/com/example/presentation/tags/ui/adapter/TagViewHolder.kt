@@ -17,6 +17,7 @@ class TagViewHolder(private val binding: ItemTagBinding) : BaseViewHolder<TagUiM
             Glide.with(binding.root)
                 .load(it.photoURL)
                 .centerCrop()
+                .error(R.drawable.ic_baseline_food_bank_24)
                 .into(binding.poster)
         }
     }

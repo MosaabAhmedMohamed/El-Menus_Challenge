@@ -61,6 +61,7 @@ class TagsViewModel @Inject constructor(private val tagsUseCase: TagsUseCase) : 
     }
 
     init {
+        tagsViewStateLDPrivate.value = TagsViewState.Loading
         getTags().subscribe {
             val uiModels = it.map { it.mapToUiModel() }
             tagsViewStateLDPrivate.value = TagsViewState.onSuccess(uiModels)

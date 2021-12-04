@@ -1,6 +1,7 @@
 package com.example.presentation.tags.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +23,6 @@ import com.example.presentation.tags.viewmodel.TagsViewModel
 import com.example.presentation.tags.viewstate.TagsViewState
 import javax.inject.Inject
 import androidx.recyclerview.widget.LinearSnapHelper
-
-
 
 
 class TagsFragment : BaseFragment() {
@@ -87,9 +86,17 @@ class TagsFragment : BaseFragment() {
 
     private fun handleViewState(viewState: TagsViewState) {
         when (viewState) {
-            TagsViewState.Loading -> loadingState()
-            TagsViewState.onEmptyState -> emptyState()
-            is TagsViewState.onError -> errorState()
+            TagsViewState.Loading ->{
+                Log.d("testTAG", "handleViewState: 1")
+                loadingState()
+            }
+            TagsViewState.onEmptyState -> {
+                Log.d("testTAG", "handleViewState: 2")
+                emptyState()}
+            is TagsViewState.onError -> {
+                Log.d("testTAG", "handleViewState: 3   ${tagsAdapter.itemCount}")
+                errorState()
+            }
             is TagsViewState.onSuccess -> onItemsLoaded(viewState.result)
         }
     }
@@ -97,29 +104,30 @@ class TagsFragment : BaseFragment() {
     private fun emptyState() {
         if (tagsAdapter.itemCount < 1) {
             errorState()
-            binding.errMessageRootView.btnRetry.gone()
-            binding.errMessageRootView.messageTv.text = getString(R.string.empty_product)
+            binding.errMessageRootView.emptyState(getString(R.string.empty_product))
         }
     }
 
     private fun errorState() {
-            binding.errMessageRootView.rootView.visible()
+        if (tagsAdapter.itemCount < 1) {
+            binding.errMessageRootView.visible()
             showItemsViews(false)
             binding.refreshSrl.stopRefresh()
-            binding.progressRootView.rootView.gone()
+            binding.progressRootView.gone()
+        }
     }
 
     private fun loadingState() {
             showItemsViews(false)
-            binding.progressRootView.rootView.visible()
-            binding.errMessageRootView.rootView.gone()
+            binding.progressRootView.visible()
+            binding.errMessageRootView.gone()
     }
 
     private fun onItemsLoaded(result: PagingData<TagUiModel>) {
         showItemsViews(true)
         binding.refreshSrl.stopRefresh()
-        binding.progressRootView.rootView.gone()
-        binding.errMessageRootView.rootView.gone()
+        binding.progressRootView.gone()
+        binding.errMessageRootView.gone()
         tagsAdapter.submitData(lifecycle, result)
     }
 
@@ -134,8 +142,8 @@ class TagsFragment : BaseFragment() {
 
     override fun onViewClicked() {
         super.onViewClicked()
-        binding.errMessageRootView.btnRetry.setOnClickListener {
-            tagsAdapter.refresh()
+        binding.errMessageRootView.setOnClickListener {
+            tagsAdapter.retry()
         }
     }
 

@@ -29,7 +29,7 @@ class ItemListViewModel @Inject constructor(
     private lateinit var tagId: String
 
     fun getItemList() {
-        getTagItemsUseCase.getItems(tagName,tagId)
+        getTagItemsUseCase.getItems(tagName, tagId)
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .doOnSubscribe {
@@ -37,9 +37,10 @@ class ItemListViewModel @Inject constructor(
             }
             .subscribe({
                 if (!it.isNullOrEmpty())
-                    itemListViewStateLDPrivate.value = ItemListViewState.onSuccess(it.mapToUiModels())
+                    itemListViewStateLDPrivate.value =
+                        ItemListViewState.onSuccess(it.mapToUiModels())
                 else {
-                    itemListViewStateLDPrivate.value = ItemListViewState.onEmptyState
+                        itemListViewStateLDPrivate.value = ItemListViewState.onEmptyState
                 }
             }, {
                 itemListViewStateLDPrivate.value = ItemListViewState.onError(it)
@@ -48,7 +49,7 @@ class ItemListViewModel @Inject constructor(
     }
 
     fun refreshItemList() {
-        refreshItemsUseCase.refreshItems(tagName,tagId)
+        refreshItemsUseCase.refreshItems(tagName, tagId)
             .subscribeOn(schedulerProvider.io())
             .subscribe()
             .addTo(compositeDisposable)

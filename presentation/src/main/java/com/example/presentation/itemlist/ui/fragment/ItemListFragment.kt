@@ -54,7 +54,7 @@ class ItemListFragment : BaseFragment() {
 
 
     override fun init() {
-        itemsViewModel.setTagInfo(args.tagId,args.tagName)
+        itemsViewModel.setTagInfo(args.tagId, args.tagName)
         initRefresh()
         observeViewState()
         initItemsRv()
@@ -84,29 +84,30 @@ class ItemListFragment : BaseFragment() {
     }
 
     private fun emptyState() {
-        errorState()
-        binding.errMessageRootView.btnRetry.gone()
-        binding.errMessageRootView.messageTv.text = getString(R.string.empty_product)
+        if (itemListAdapter.itemCount < 1) {
+            errorState()
+            binding.errMessageRootView.emptyState(getString(R.string.empty_product))
+        }
     }
 
     private fun errorState(error: Throwable? = null) {
-        binding.errMessageRootView.rootView.visible()
+        binding.errMessageRootView.visible()
         showItemsViews(false)
         binding.refreshSrl.stopRefresh()
-        binding.progressRootView.rootView.gone()
+        binding.progressRootView.gone()
     }
 
     private fun loadingState() {
         showItemsViews(false)
-        binding.progressRootView.rootView.visible()
-        binding.errMessageRootView.rootView.gone()
+        binding.progressRootView.visible()
+        binding.errMessageRootView.gone()
     }
 
     private fun onItemsLoaded(result: List<ItemUiModel>) {
         showItemsViews(true)
         binding.refreshSrl.stopRefresh()
-        binding.progressRootView.rootView.gone()
-        binding.errMessageRootView.rootView.gone()
+        binding.progressRootView.gone()
+        binding.errMessageRootView.gone()
         itemListAdapter.setItems(result.toMutableList())
     }
 
@@ -127,7 +128,7 @@ class ItemListFragment : BaseFragment() {
 
     private fun onProductItemClicked(item: ItemUiModel, img: ImageView) {
         img.transitionName = "${item.id}${img.transitionName}"
-        itemsViewModel.navigateToItemDetail(item,img,requireView().findNavController())
+        itemsViewModel.navigateToItemDetail(item, img, requireView().findNavController())
     }
 
     private fun getItems() {
@@ -146,7 +147,7 @@ class ItemListFragment : BaseFragment() {
 
     override fun onViewClicked() {
         super.onViewClicked()
-        binding.errMessageRootView.btnRetry.setOnClickListener {
+        binding.errMessageRootView.setOnClickListener {
             getItems()
         }
     }

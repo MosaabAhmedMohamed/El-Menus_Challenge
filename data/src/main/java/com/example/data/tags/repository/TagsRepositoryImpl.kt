@@ -33,6 +33,7 @@ class TagsRepositoryImpl
             pagingSourceFactory = { local.tagsDao().getTags() }
         ).flowable.flatMap {
             Flowable.just(it.map { it.mapToDomainModel() })
+                .distinctUntilChanged()
         }
     }
 

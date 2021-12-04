@@ -1,5 +1,6 @@
 package com.example.data.itemlist.repository
 
+import android.annotation.SuppressLint
 import com.example.data.itemlist.source.local.ItemListLocalSource
 import com.example.data.itemlist.source.local.model.ItemLocalModel
 import com.example.data.itemlist.source.mapper.mapToItemModel
@@ -36,20 +37,22 @@ class ItemListRepositoryImpl @Inject constructor(
         }
     }
 
+    @SuppressLint("CheckResult")
     private fun loadFromRemoteAndCache(itemListPrams: ItemListPrams) {
-        itemListRemoteSource.getItems(itemListPrams).flatMap {
-            it.items?.let {
-                cacheItems(
-                    it.mapToLocalModels(itemListPrams.tagId),
-                    itemListPrams.tagId
-                ).subscribe()
-            }
-            return@flatMap Single.just(true)
-        }.subscribe()
+        itemListRemoteSource.getItems(itemListPrams)
+            .flatMap {
+                it.items?.let {
+                    cacheItems(
+                        it.mapToLocalModels(itemListPrams.tagId),
+                        itemListPrams.tagId
+                    ).subscribe({}, {})
+                }
+                return@flatMap Single.just(true)
+            }.subscribe({}, {})
     }
 
     private fun cacheItems(products: List<ItemLocalModel>, tagId: String) =
-        itemListLocalSource.cacheItemList(products,tagId)
+        itemListLocalSource.cacheItemList(products, tagId)
 
 }
 

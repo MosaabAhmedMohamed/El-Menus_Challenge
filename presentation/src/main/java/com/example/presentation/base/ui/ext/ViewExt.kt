@@ -3,11 +3,13 @@ package com.example.presentation.base.ui.ext
 import android.view.View
 
 fun View.gone() {
-    visibility = View.GONE
+    if (visibility == View.VISIBLE)
+        visibility = View.GONE
 }
 
 fun View.visible() {
-    visibility = View.VISIBLE
+    if (visibility == View.GONE)
+        visibility = View.VISIBLE
 }
 
 fun View.visibility(show: Boolean) {
