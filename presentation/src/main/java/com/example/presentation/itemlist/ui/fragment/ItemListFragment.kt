@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.presentation.R
 import com.example.presentation.base.ViewModelFactory
@@ -55,7 +53,7 @@ class ItemListFragment : BaseFragment() {
 
 
     override fun init() {
-        binding.toolbar.title =  args.tagName
+        binding.toolbar.title = args.tagName
         itemsViewModel.setTagInfo(args.tagId, args.tagName)
         initRefresh()
         observeViewState()
@@ -123,16 +121,12 @@ class ItemListFragment : BaseFragment() {
 
     private fun onProductItemClicked(item: ItemUiModel, img: ImageView) {
         img.transitionName = "${item.id}${img.transitionName}"
-        val extras = FragmentNavigatorExtras(
-            img to img.transitionName
-        ,binding.appbarLayout to binding.appbarLayout.transitionName)
-        requireView().findNavController().navigate(
-            ItemListFragmentDirections
-                .actionItemListFragmentToItemDetailFragment(item),
-            extras
+        itemsViewModel.navigateToItemDetail(
+            item,
+            img,
+            binding.appbarLayout,
+            requireView().findNavController()
         )
-
-        //itemsViewModel.navigateToItemDetail(item, img, requireView().findNavController())
     }
 
     private fun getItems() {
@@ -142,7 +136,7 @@ class ItemListFragment : BaseFragment() {
 
     private fun refreshItems() {
         itemListAdapter.clear()
-        itemsViewModel.refreshItemList()
+        itemsViewModel.getItemList(true)
     }
 
     private fun showItemsViews(show: Boolean) {

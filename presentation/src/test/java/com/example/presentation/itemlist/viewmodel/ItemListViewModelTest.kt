@@ -6,7 +6,6 @@ import com.example.core.test.util.TestingException
 import com.example.domain.itemlist.entity.model.ItemModel
 import com.example.domain.itemlist.repository.ItemListRepository
 import com.example.domain.itemlist.usecase.GetTagItemsUseCase
-import com.example.domain.itemlist.usecase.RefreshItemsUseCase
 import com.example.presentation.base.AppSchedulerProvider
 import com.example.presentation.base.SchedulerProvider
 import com.example.presentation.factory.ItemListFactory
@@ -136,7 +135,11 @@ class ItemListViewModelTest {
      */
 
     private fun stubFetchItems(flowable: Flowable<List<ItemModel>>) {
-        Mockito.`when`(getTagItemsUseCase.getItems(itemListPrams.tagName, itemListPrams.tagId))
+        Mockito.`when`(getTagItemsUseCase.getItems(
+            itemListPrams.tagName,
+            itemListPrams.tagId,
+            isForceRefresh
+        ))
             .thenReturn(flowable)
     }
 

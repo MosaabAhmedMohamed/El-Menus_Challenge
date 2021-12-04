@@ -35,7 +35,7 @@ class GetTagItemsUseCaseTest {
         // No Arrangement for this test case
 
         // Act
-        useCase.getItems(itemListPrams.tagName, itemListPrams.tagId)
+        useCase.getItems(itemListPrams.tagName, itemListPrams.tagId, false)
 
         // Assert
         Mockito.verify(itemListRepository).getItems(itemListPrams)
@@ -48,7 +48,7 @@ class GetTagItemsUseCaseTest {
 
         // Act // Assert
          useCase
-             .getItems(itemListPrams.tagName, itemListPrams.tagId)
+             .getItems(itemListPrams.tagName, itemListPrams.tagId, false)
             .test()
             .assertComplete()
 
@@ -62,7 +62,7 @@ class GetTagItemsUseCaseTest {
 
         // Act   // Assert
         useCase
-            .getItems(itemListPrams.tagName, itemListPrams.tagId)
+            .getItems(itemListPrams.tagName, itemListPrams.tagId, false)
             .test()
             .assertValue(products)
 
@@ -76,7 +76,7 @@ class GetTagItemsUseCaseTest {
 
         // Act   // Assert
         useCase
-            .getItems(itemListPrams.tagName, itemListPrams.tagId)
+            .getItems(itemListPrams.tagName, itemListPrams.tagId, false)
             .test()
             .assertError {
                 it == ex

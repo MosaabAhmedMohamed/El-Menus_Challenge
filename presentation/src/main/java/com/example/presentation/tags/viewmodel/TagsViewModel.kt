@@ -1,6 +1,5 @@
 package com.example.presentation.tags.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -35,18 +34,13 @@ class TagsViewModel @Inject constructor(private val tagsUseCase: TagsUseCase) : 
             is LoadState.NotLoading -> {
             }
             LoadState.Loading -> {
-                Log.d("testTAG", "handleLoadState: 1")
                 tagsViewStateLDPrivate.value = TagsViewState.Loading
             }
             is LoadState.Error -> {
-                Log.d("testTAG", "handleLoadState: 2")
-
                 tagsViewStateLDPrivate.value = TagsViewState.onError
             }
         }
         if (loadState.append.endOfPaginationReached) {
-            Log.d("testTAG", "handleLoadState: 3")
-
             tagsViewStateLDPrivate.value = TagsViewState.onEmptyState
         }
     }

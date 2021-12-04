@@ -9,9 +9,7 @@ import com.example.data.itemlist.source.remote.ItemListRemoteSource
 import com.example.domain.itemlist.entity.model.ItemModel
 import com.example.domain.itemlist.entity.prams.ItemListPrams
 import com.example.domain.itemlist.repository.ItemListRepository
-import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Single
 import javax.inject.Inject
 
 class ItemListRepositoryImpl @Inject constructor(
@@ -20,35 +18,32 @@ class ItemListRepositoryImpl @Inject constructor(
 ) : ItemListRepository {
 
 
-    override fun getItems(itemListPrams: ItemListPrams): Flowable<List<ItemModel>> {
+    override fun getItems(itemListPrams: ItemListPrams,isForceRefresh:Boolean): Flowable<List<ItemModel>> {
         return itemListLocalSource.getItemList(itemListPrams.tagId)
             .flatMap {
-                if (it.isNullOrEmpty()) {
-                    loadFromRemoteAndCache(itemListPrams)
+                if (it.isNullOrEmpty() || isForceRefresh) {
+                    return@flatMap loadFromRemote(itemListPrams)
+                        .flatMap {
+                            handleCacheItems(it,itemListPrams.tagId)
+                        }
                 }
                 Flowable.just(it.mapToItemModel())
             }
     }
 
-    override fun reFetchItemsFromRemote(tagName: ItemListPrams): Completable {
-        return Completable.create {
-            loadFromRemoteAndCache(tagName)
-            it.onComplete()
-        }
+    private fun loadFromRemote(itemListPrams: ItemListPrams): Flowable<List<ItemLocalModel>?> {
+        return itemListRemoteSource.getItems(itemListPrams)
+            .map { it.items?.mapToLocalModels(itemListPrams.tagId) }
+            .toFlowable()
     }
 
     @SuppressLint("CheckResult")
-    private fun loadFromRemoteAndCache(itemListPrams: ItemListPrams) {
-        itemListRemoteSource.getItems(itemListPrams)
-            .flatMap {
-                it.items?.let {
-                    cacheItems(
-                        it.mapToLocalModels(itemListPrams.tagId),
-                        itemListPrams.tagId
-                    ).subscribe({}, {})
-                }
-                return@flatMap Single.just(true)
-            }.subscribe({}, {})
+    private fun handleCacheItems(
+        itemLocalModels: List<ItemLocalModel>,
+        tagId: String
+    ): Flowable<List<ItemModel>> {
+        cacheItems(itemLocalModels, tagId).subscribe()
+        return itemListLocalSource.getItemList(tagId).map { it.mapToItemModel() }
     }
 
     private fun cacheItems(products: List<ItemLocalModel>, tagId: String) =
