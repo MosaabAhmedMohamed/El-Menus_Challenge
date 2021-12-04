@@ -5,18 +5,15 @@ a list of tags and menu items for each tag.
 
 ## Challenge description
 1. Menu screen
-● Menus screen consists of two parts
-○ Horizontal list of tags it contains tag name and photo
-○ Tags list should scroll infinitely to load more items. Send {page}
-parameter as a page number to the API request.
-○ Selecting any tag will display a list of items .Send tag name to
-Items API
-○ Item list contains item name and photo.
-● Note Tags list shouldn't be sticky at the top of the screen (scrolls of the
-screen on scrolling if the content height > screen height)
-● You should cache the API response for offline use.
-● Clicking on any item should open the Item details screen with a shared
-element transition. The item photo should act as the shared element.
+ Menus screen consists of two parts
+ Horizontal list of tags it contains tag name and photo
+ Tags list should scroll infinitely to load more items. Send {page} parameter as a page number to the API request.
+ Selecting any tag will display a list of items .Send tag name to Items API
+ Item list contains item name and photo.
+ Note Tags list shouldn't be sticky at the top of the screen (scrolls of the screen on scrolling if the content height > screen height)
+ You should cache the API response for offline use.
+ Clicking on any item should open the Item details screen with a shared
+ element transition. The item photo should act as the shared element.
 
 2. Item details screen
 ● The item photo should be displayed at the top of the page with the item
