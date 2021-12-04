@@ -44,7 +44,7 @@ class ItemDetailFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         sharedElementEnterTransition = ChangeBounds().apply {
-           // duration = 500
+            duration = 500
         }
         binding = FragmentItemDetailBinding.inflate(inflater, container, false)
         return binding.root
@@ -52,9 +52,11 @@ class ItemDetailFragment : BaseFragment() {
 
 
     override fun init() {
+
         observeViewState()
         itemDetailViewModel.setItemDetailModel(args.itemDetail)
         binding.poster.transitionName = "${args.itemDetail.id}${binding.poster.transitionName}"
+
     }
 
     private fun observeViewState() {

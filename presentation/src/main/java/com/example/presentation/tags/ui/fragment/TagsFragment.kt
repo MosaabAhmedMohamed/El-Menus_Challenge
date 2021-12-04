@@ -1,7 +1,6 @@
 package com.example.presentation.tags.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -86,18 +85,18 @@ class TagsFragment : BaseFragment() {
 
     private fun handleViewState(viewState: TagsViewState) {
         when (viewState) {
-            TagsViewState.Loading ->{
-                Log.d("testTAG", "handleViewState: 1")
+            TagsViewState.Loading -> {
                 loadingState()
             }
             TagsViewState.onEmptyState -> {
-                Log.d("testTAG", "handleViewState: 2")
-                emptyState()}
+                emptyState()
+            }
             is TagsViewState.onError -> {
-                Log.d("testTAG", "handleViewState: 3   ${tagsAdapter.itemCount}")
                 errorState()
             }
-            is TagsViewState.onSuccess -> onItemsLoaded(viewState.result)
+            is TagsViewState.onSuccess -> {
+                onItemsLoaded(viewState.result)
+            }
         }
     }
 
@@ -111,28 +110,38 @@ class TagsFragment : BaseFragment() {
     private fun errorState() {
         if (tagsAdapter.itemCount < 1) {
             binding.errMessageRootView.visible()
-            showItemsViews(false)
+            showItemsViewsRv(false)
             binding.refreshSrl.stopRefresh()
             binding.progressRootView.gone()
+        } else {
+            showCurrentLoadedItems()
         }
     }
 
     private fun loadingState() {
-            showItemsViews(false)
+        if (tagsAdapter.itemCount < 1) {
+            showItemsViewsRv(false)
             binding.progressRootView.visible()
             binding.errMessageRootView.gone()
+        } else {
+            showCurrentLoadedItems()
+        }
     }
 
     private fun onItemsLoaded(result: PagingData<TagUiModel>) {
-        showItemsViews(true)
-        binding.refreshSrl.stopRefresh()
-        binding.progressRootView.gone()
-        binding.errMessageRootView.gone()
+        showCurrentLoadedItems()
         tagsAdapter.submitData(lifecycle, result)
     }
 
-    private fun showItemsViews(show: Boolean) {
+    private fun showItemsViewsRv(show: Boolean) {
         binding.productsListRv.visibility(show)
+    }
+
+    private fun showCurrentLoadedItems() {
+        showItemsViewsRv(true)
+        binding.refreshSrl.stopRefresh()
+        binding.progressRootView.gone()
+        binding.errMessageRootView.gone()
     }
 
 
