@@ -45,7 +45,7 @@ class ItemListViewModelTest {
 
     private lateinit var refreshItemsUseCase: RefreshItemsUseCase
 
-    private lateinit var productsListViewModel: ItemListViewModel
+    private lateinit var itemListViewModel: ItemListViewModel
 
     @Before
     fun setUp() {
@@ -67,22 +67,22 @@ class ItemListViewModelTest {
     }
 
     private fun setUpViewModel() {
-        productsListViewModel = ItemListViewModel(
+        itemListViewModel = ItemListViewModel(
             getTagItemsUseCase,
             refreshItemsUseCase,
             schedulerProvider
         )
-        productsListViewModel.setTagInfo(itemListPrams.tagId, itemListPrams.tagName)
-        productsListViewModel.itemListViewStateLD.observeForever(stateObserver)
+        itemListViewModel.setTagInfo(itemListPrams.tagId, itemListPrams.tagName)
+        itemListViewModel.itemListViewStateLD.observeForever(stateObserver)
     }
 
     @Test
-    fun getProductsList_returnsEmpty() {
+    fun geItemList_returnsEmpty() {
         // Arrange
         stubFetchItems(Flowable.just(listOf()))
 
         // Act
-        productsListViewModel.getItemList()
+        itemListViewModel.getItemList()
 
         // Assert
         Mockito.verify(stateObserver).onChanged(ItemListViewState.Loading)
@@ -90,13 +90,13 @@ class ItemListViewModelTest {
     }
 
     @Test
-    fun getProductsList_returnsError() {
+    fun getItemList_returnsError() {
         // Arrange
         val ex = TestingException(TestingException.GENERIC_EXCEPTION_MESSAGE)
         stubFetchItems(Flowable.error(ex))
 
         // Act
-        productsListViewModel.getItemList()
+        itemListViewModel.getItemList()
 
         // Assert
         Mockito.verify(stateObserver).onChanged(ItemListViewState.Loading)
@@ -104,27 +104,27 @@ class ItemListViewModelTest {
     }
 
     @Test
-    fun getProductsList_returnsData() {
+    fun getItemList_returnsData() {
         // Arrange
-        val products = ItemListFactory.generateDummyItemModels(10)
-        stubFetchItems(Flowable.just(products))
+        val items = ItemListFactory.generateDummyItemModels(10)
+        stubFetchItems(Flowable.just(items))
 
         // Act
-        productsListViewModel.getItemList()
+        itemListViewModel.getItemList()
 
         // Assert
         Mockito.verify(stateObserver).onChanged(ItemListViewState.Loading)
-        Mockito.verify(stateObserver).onChanged(ItemListViewState.onSuccess(products.mapToUiModels()))
+        Mockito.verify(stateObserver).onChanged(ItemListViewState.onSuccess(items.mapToUiModels()))
     }
 
 
     @Test
-    fun refreshProducts_call_Repo() {
+    fun refreshItems_call_Repo() {
         // Arrange
         stubRefresh(Completable.complete())
 
         // Act
-        productsListViewModel.refreshItemList()
+        itemListViewModel.refreshItemList()
 
         // Assert
         Mockito.verify(itemListRepository).reFetchItemsFromRemote(itemListPrams)
