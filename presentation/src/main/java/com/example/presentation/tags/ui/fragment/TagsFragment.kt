@@ -56,7 +56,8 @@ class TagsFragment : BaseFragment() {
 
     private fun initTagsRv() {
         binding.productsListRv.setHasFixedSize(true)
-        binding.productsListRv.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        binding.productsListRv.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.productsListRv.adapter = tagsAdapter
         setLoadStateAdapter()
         tagsAdapter.addLoadStateListener {
@@ -102,16 +103,16 @@ class TagsFragment : BaseFragment() {
     }
 
     private fun errorState() {
-        binding.errMessageRootView.rootView.visible()
-        showItemsViews(false)
-        binding.refreshSrl.stopRefresh()
-        binding.progressRootView.rootView.gone()
+            binding.errMessageRootView.rootView.visible()
+            showItemsViews(false)
+            binding.refreshSrl.stopRefresh()
+            binding.progressRootView.rootView.gone()
     }
 
     private fun loadingState() {
-        showItemsViews(false)
-        binding.progressRootView.rootView.visible()
-        binding.errMessageRootView.rootView.gone()
+            showItemsViews(false)
+            binding.progressRootView.rootView.visible()
+            binding.errMessageRootView.rootView.gone()
     }
 
     private fun onItemsLoaded(result: PagingData<TagUiModel>) {
@@ -128,7 +129,7 @@ class TagsFragment : BaseFragment() {
 
 
     private fun onTagItemClicked(it: TagUiModel) {
-        tagsViewModel.navigateToSelectedTag(it.name,it.id)
+        tagsViewModel.navigateToSelectedTag(it.name, it.id)
     }
 
     override fun onViewClicked() {
@@ -138,7 +139,7 @@ class TagsFragment : BaseFragment() {
         }
     }
 
-    private fun setRefreshListener(){
+    private fun setRefreshListener() {
         binding.refreshSrl.setOnRefreshListener { tagsAdapter.refresh() }
     }
 

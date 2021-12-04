@@ -63,6 +63,9 @@ dependencies {
     implementation(SupportLibs.ANDROIDX_CORE_KTX)
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
 
+    testImplementation(project(mapOf("path" to ":core")))
+
+
     testImplementation(TestingLib.JUNIT)
     testImplementation(TestingLib.RoboElectric)
     testImplementation(TestingLib.mockito)
