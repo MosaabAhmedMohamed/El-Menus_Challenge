@@ -34,7 +34,7 @@ used different branches to implement and refactor the features to avoid conflict
 <img src="https://github.com/MosaabAhmedMohamed/El-Menus_Challenge/blob/master/el_menus_challenge_.png" width="200" height="400"></a>
 
 ## Download
-[APK](https://github.com/MosaabAhmedMohamed/HalanChallenge/blob/mobile/2.0/prod/Halan%20Challenge.apk)
+[APK](https://github.com/MosaabAhmedMohamed/El-Menus_Challenge/blob/master/El-menus_challenge.apk)
 
 
 ## Specifications
@@ -92,11 +92,11 @@ cleaner and more readable and handy when creating dependecies.
 This design creates a consistent and pleasant user experience. Regardless of whether the user comes back to the app several minutes after they've last closed it or several days later, they instantly see a user's information that the app persists locally. If this data is stale, the app's repository module starts updating the data in the background.
 * Using to best of managing ViewState with less complex tools , using Sealed Classes and LiveData we created a solid source that we can expose to view to show what the app can do to the user without worrying about the side effects
 ```
-sealed class ProductsViewState {
-    object Loading : ProductsViewState()
-    object onEmptyState : ProductsViewState()
-    data class onSuccess(val result: List<ProductUiModel>) : ProductsViewState()
-    data class onError(val error: Throwable) : ProductsViewState()
+sealed class ItemListViewState {
+    object Loading : ItemListViewState()
+    object onEmptyState : ItemListViewState()
+    data class onSuccess(val result: List<ItemUiModel>) : ItemListViewState()
+    data class onError(val error: Throwable) : ItemListViewState()
 
 }
 ```
@@ -106,8 +106,8 @@ A View will a) emit its event to a ViewModel, and b) subscribes to this ViewMode
 Then ViewModel starts to delegate the event to it's suitable UseCase with thread handling in mind using RxJava (Logic Holders for each case)
 
 ```
-  fun getProductsList() {
-             getProductsListUseCase.getProducts()
+  fun getItemList(isForceRefresh:Boolean = false) {
+             getTagItemsUseCase.getItems(tagName, tagId,isForceRefresh)
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
                     .subscribe({
@@ -119,18 +119,18 @@ Then ViewModel starts to delegate the event to it's suitable UseCase with thread
 ```
 As the UseCase process and get the required models form the repository it returns the result back to the ViewModel to start Exposing it as LiveData to our Lifecycle Owner (Activity)
 ```
-    override val _viewState = MutableLiveData<Event<HomeViewState>>()
+    override val _viewState = MutableLiveData<Event<ItemListViewState>>()
 
 ```
 ```
                .subscribe({
                 if (!it.products.isNullOrEmpty())
-                    productsViewStateLDPrivate.value = ProductsViewState.onSuccess(it.products.mapToUiModels())
+                    itemListViewStateLDPrivate.value = ItemListViewState.onSuccess(it.products.mapToUiModels())
                 else {
-                    productsViewStateLDPrivate.value = ProductsViewState.onEmptyState
+                    itemListViewStateLDPrivate.value = ItemListViewState.onEmptyState
                 }
             }, {
-                productsViewStateLDPrivate.value = ProductsViewState.onError(it)
+                itemListViewStateLDPrivate.value = ItemListViewState.onError(it)
             })
 ```
 
@@ -143,12 +143,12 @@ then back to our Activity it will listen for any change in our LiveData ( ViewSt
 ```
 
 ```
- private fun handleViewState(viewState: ProductsViewState) {
+ private fun handleViewState(viewState: ItemListViewState) {
         when (viewState) {
-            ProductsViewState.Loading -> loadingState()
-            ProductsViewState.onEmptyState -> emptyState()
-            is ProductsViewState.onError -> errorState(viewState.error)
-            is ProductsViewState.onSuccess -> onProductsLoaded(viewState.result)
+            ItemListViewState.Loading -> loadingState()
+            ItemListViewState.onEmptyState -> emptyState()
+            is ItemListViewState.onError -> errorState(viewState.error)
+            is ItemListViewState.onSuccess -> onProductsLoaded(viewState.result)
         }
 
     }
