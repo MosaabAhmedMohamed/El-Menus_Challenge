@@ -117,18 +117,6 @@ class ItemListRepositoryImplTest {
     }
 
 
-    @Test
-    fun reFetchItemListFromRemote_call_API() {
-        // Arrange
-        // No Arrangement for this test case
-
-        // Act
-        itemListRepositoryImpl.reFetchItemsFromRemote(itemListPrams).test()
-
-        // Assert
-        Mockito.verify(api).getItemList(itemListPrams.tagName)
-    }
-
     /**
      * Stub helper methods
      */

@@ -42,8 +42,6 @@ class ItemListViewModelTest {
 
     private lateinit var getTagItemsUseCase: GetTagItemsUseCase
 
-    private lateinit var refreshItemsUseCase: RefreshItemsUseCase
-
     private lateinit var itemListViewModel: ItemListViewModel
 
     @Before
@@ -62,13 +60,11 @@ class ItemListViewModelTest {
     private fun setUpUseCases() {
         getTagItemsUseCase =
             GetTagItemsUseCase(itemListRepository)
-        refreshItemsUseCase = RefreshItemsUseCase(itemListRepository)
     }
 
     private fun setUpViewModel() {
         itemListViewModel = ItemListViewModel(
             getTagItemsUseCase,
-            refreshItemsUseCase,
             schedulerProvider
         )
         itemListViewModel.setTagInfo(itemListPrams.tagId, itemListPrams.tagName)
@@ -117,18 +113,6 @@ class ItemListViewModelTest {
     }
 
 
-    @Test
-    fun refreshItems_call_Repo() {
-        // Arrange
-        stubRefresh(Completable.complete())
-
-        // Act
-        itemListViewModel.refreshItemList()
-
-        // Assert
-        Mockito.verify(itemListRepository).reFetchItemsFromRemote(itemListPrams)
-    }
-
 
     /**
      * Stub Helpers Methods
@@ -138,14 +122,10 @@ class ItemListViewModelTest {
         Mockito.`when`(getTagItemsUseCase.getItems(
             itemListPrams.tagName,
             itemListPrams.tagId,
-            isForceRefresh
+            false
         ))
             .thenReturn(flowable)
     }
 
-    private fun stubRefresh(completable: Completable) {
-        Mockito.`when`(itemListRepository.reFetchItemsFromRemote(itemListPrams))
-            .thenReturn(completable)
-    }
 
 }
